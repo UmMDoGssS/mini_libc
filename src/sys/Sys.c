@@ -6,7 +6,6 @@
 const I32 OkExitCode = 0;
 const I32 ErrExitCode = 1;
 
-[[noreturn]]
 Void SysExit(I32 status) {
     Syscall6(SyscallNumber__ExitGroup, status, 0, 0, 0, 0, 0);
     __builtin_trap();

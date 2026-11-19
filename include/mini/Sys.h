@@ -9,12 +9,14 @@ extern const Mini__I32 Mini__ErrExitCode;
 [[noreturn]]
 Mini__Void Mini__SysExit(Mini__I32 status);
 
+[[nodiscard]]
 Mini__I64 Mini__SysRead(
     Mini__I32 fd,
     Mini__Any *buf,
     Mini__USize count
 );
 
+[[nodiscard]]
 Mini__I64 Mini__SysWrite(
     Mini__I32 fd,
     const Mini__Any *buf,
@@ -27,6 +29,7 @@ typedef enum {
     Mini__SeekWhence__End = 2,
 } Mini__SeekWhence;
 
+[[nodiscard]]
 Mini__I64 Mini__SysLseek(Mini__I32 fd, Mini__I64 offset, Mini__I32 whence);
 
 typedef enum {
@@ -39,6 +42,7 @@ typedef enum {
     Mini__OpenFlag__Append  = 02000,
 } Mini__OpenFlag;
 
+[[nodiscard]]
 Mini__I32 Mini__SysOpen(
     const Mini__Char *path,
     Mini__I32 flags,
@@ -47,6 +51,7 @@ Mini__I32 Mini__SysOpen(
 
 extern const Mini__I32 Mini__AtFdcwd;
 
+[[nodiscard]]
 Mini__I32 Mini__SysOpenat(
     Mini__I32 dirfd,
     const Mini__Char *path,
@@ -54,12 +59,13 @@ Mini__I32 Mini__SysOpenat(
     Mini__U32 mode
 );
 
+[[nodiscard]]
 Mini__I32 Mini__SysCreat(
     const Mini__Char *path,
     Mini__U32 mode
 );
 
-// Returns zero or a negative Linux error code.
+[[nodiscard]]
 Mini__I32 Mini__SysClose(Mini__I32 fd);
 
 typedef enum {
@@ -75,8 +81,7 @@ typedef enum {
     Mini__MmapFlag__Anonymous = 0x20,
 } Mini__MmapFlag;
 
-// Returns the mapped address as an integer or a negative Linux error code.
-// A successful mapping remains valid until it is unmapped.
+[[nodiscard]]
 Mini__IPtr Mini__SysMmap(
     Mini__Any *address,
     Mini__USize length,
@@ -86,7 +91,7 @@ Mini__IPtr Mini__SysMmap(
     Mini__I64 offset
 );
 
-// Returns zero or a negative Linux error code.
+[[nodiscard]]
 Mini__I32 Mini__SysMunmap(Mini__Any *address, Mini__USize length);
 
 #endif // Mini__IncludedExitH
