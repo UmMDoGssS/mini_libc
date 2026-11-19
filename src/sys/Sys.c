@@ -1,5 +1,5 @@
 #include "mini/TypesNoNamespace.h"
-#include "mini/SysExitNoNamespace.h"
+#include "mini/SysNoNamespace.h"
 #include "platform/linux/x86_64/Syscall.h"
 
 const I32 OkExitCode = 0;

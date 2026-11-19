@@ -18,7 +18,7 @@ set(CMAKE_C_EXTENSIONS OFF)
 
 set(runtime_sources
     src/platform/linux/x86_64/Start.s
-    src/sys/SysExit.c
+    src/sys/Sys.c
 )
 
 function(add_mini_executable target source)
