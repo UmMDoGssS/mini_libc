@@ -12,6 +12,13 @@
 
 #define SysWrite Mini__SysWrite
 
+#define SeekWhence__Set Mini__SeekWhence__Set
+#define SeekWhence__Cur Mini__SeekWhence__Cur
+#define SeekWhence__End Mini__SeekWhence__End
+#define SeekWhence      Mini__SeekWhence
+
+#define SysLseek Mini__SysLseek
+
 #define OpenFlag__RdOnly Mini__OpenFlag__RdOnly
 #define OpenFlag__WrOnly Mini__OpenFlag__WrOnly
 #define OpenFlag__RdWr   Mini__OpenFlag__RdWr

@@ -22,6 +22,14 @@ Mini__I64 Mini__SysWrite(
 );
 
 typedef enum {
+    Mini__SeekWhence__Set = 0,
+    Mini__SeekWhence__Cur = 1,
+    Mini__SeekWhence__End = 2,
+} Mini__SeekWhence;
+
+Mini__I64 Mini__SysLseek(Mini__I32 fd, Mini__I64 offset, Mini__I32 whence);
+
+typedef enum {
     Mini__OpenFlag__RdOnly  = 0,
     Mini__OpenFlag__WrOnly  = 1,
     Mini__OpenFlag__RdWr    = 2,

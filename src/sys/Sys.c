@@ -20,6 +20,10 @@ I64 SysWrite(I32 fd, const Any *buf, USize count) {
     return Syscall6(SyscallNumber__Write, fd, (I64) buf, count, 0, 0, 0);
 }
 
+I64 SysLseek(I32 fd, I64 offset, I32 whence) {
+    return Syscall6(SyscallNumber__Lseek, fd, offset, whence, 0, 0, 0);
+}
+
 I32 SysOpen(const Char *path, I32 flags, U32 mode) {
     return SysOpenat(AtFdcwd, path, flags, mode);
 }
