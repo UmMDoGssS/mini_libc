@@ -1,16 +1,14 @@
 #include "mini/TypesNoNamespace.h"
+#include "SyscallNumberNoNamespace.h"
 #include "SyscallNoNamespace.h"
 
-enum {
-    WriteSyscall = 1,
-    Stdout = 1,
-};
+const I64 Stdout = 1;
 
 int Main(void) {
     static const Char message[] = "Hello, mini_libc!\n";
     const I64 length = sizeof(message) - 1;
     I64 written = Syscall6(
-        WriteSyscall,
+        SyscallNumber__Write,
         Stdout,
         (IPtr)message,
         length,

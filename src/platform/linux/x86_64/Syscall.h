@@ -2,9 +2,10 @@
 #define Mini__ImportedSyscallH
 
 #include "mini/Types.h"
+#include "SyscallNumber.h"
 
 static inline Mini__I64 Mini__Syscall6(
-    Mini__I64 number,
+    Mini__SyscallNumber number,
     Mini__I64 arg1,
     Mini__I64 arg2,
     Mini__I64 arg3,
