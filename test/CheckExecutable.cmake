@@ -1,10 +1,22 @@
 cmake_minimum_required(VERSION 3.21)
 
+set(work_directory "${CMAKE_CURRENT_BINARY_DIR}")
+if(ISOLATE_FILES)
+    string(RANDOM LENGTH 16 ALPHABET 0123456789abcdef suffix)
+    set(work_directory "${CMAKE_CURRENT_BINARY_DIR}/mini-libc-test-${suffix}")
+    file(MAKE_DIRECTORY "${work_directory}")
+endif()
+
 execute_process(
     COMMAND "${EXECUTABLE}"
+    WORKING_DIRECTORY "${work_directory}"
     RESULT_VARIABLE status
     OUTPUT_VARIABLE output
 )
+
+if(ISOLATE_FILES)
+    file(REMOVE_RECURSE "${work_directory}")
+endif()
 
 if(NOT status STREQUAL EXPECTED_STATUS)
     message(FATAL_ERROR "${EXECUTABLE} exited with status ${status}, expected ${EXPECTED_STATUS}")

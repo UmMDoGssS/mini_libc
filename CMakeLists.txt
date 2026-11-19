@@ -43,6 +43,7 @@ if(BUILD_TESTING)
     find_program(CMAKE_NM NAMES nm llvm-nm REQUIRED)
 
     add_mini_executable(exit-status test/SysExitTest.c)
+    add_mini_executable(sys-io test/SysIoTest.c)
 
     function(add_mini_test target status)
         add_test(NAME ${target}
@@ -58,4 +59,5 @@ if(BUILD_TESTING)
 
     add_mini_test(smoke 0 "-DEXPECTED_OUTPUT=Hello, mini_libc!")
     add_mini_test(exit-status 23)
+    add_mini_test(sys-io 0 -DISOLATE_FILES=ON)
 endif()
