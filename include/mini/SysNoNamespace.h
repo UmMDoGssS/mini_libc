@@ -36,4 +36,18 @@
 
 #define SysCreat Mini__SysCreat
 
+#define MmapProt__None  Mini__MmapProt__None
+#define MmapProt__Read  Mini__MmapProt__Read
+#define MmapProt__Write Mini__MmapProt__Write
+#define MmapProt__Exec  Mini__MmapProt__Exec
+#define MmapProt        Mini__MmapProt
+
+#define MmapFlag__Shared    Mini__MmapFlag__Shared
+#define MmapFlag__Private   Mini__MmapFlag__Private
+#define MmapFlag__Anonymous Mini__MmapFlag__Anonymous
+#define MmapFlag            Mini__MmapFlag
+
+#define SysMmap   Mini__SysMmap
+#define SysMunmap Mini__SysMunmap
+
 #endif // Mini__IncludedExitNoNamespaceH

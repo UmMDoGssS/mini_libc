@@ -59,4 +59,31 @@ Mini__I32 Mini__SysCreat(
     Mini__U32 mode
 );
 
+typedef enum {
+    Mini__MmapProt__None  = 0,
+    Mini__MmapProt__Read  = 0x1,
+    Mini__MmapProt__Write = 0x2,
+    Mini__MmapProt__Exec  = 0x4,
+} Mini__MmapProt;
+
+typedef enum {
+    Mini__MmapFlag__Shared    = 0x01,
+    Mini__MmapFlag__Private   = 0x02,
+    Mini__MmapFlag__Anonymous = 0x20,
+} Mini__MmapFlag;
+
+// Returns the mapped address as an integer or a negative Linux error code.
+// A successful mapping remains valid until it is unmapped.
+Mini__IPtr Mini__SysMmap(
+    Mini__Any *address,
+    Mini__USize length,
+    Mini__I32 protection,
+    Mini__I32 flags,
+    Mini__I32 fd,
+    Mini__I64 offset
+);
+
+// Returns zero or a negative Linux error code.
+Mini__I32 Mini__SysMunmap(Mini__Any *address, Mini__USize length);
+
 #endif // Mini__IncludedExitH
