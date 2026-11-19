@@ -4,7 +4,7 @@
 _start:
     call Main
     movl %eax, %edi
-    call Mini__Exit
+    call Mini__SysExit
     ud2
 .size _start, .-_start
 

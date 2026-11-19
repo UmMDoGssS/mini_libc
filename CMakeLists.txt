@@ -18,7 +18,7 @@ set(CMAKE_C_EXTENSIONS OFF)
 
 set(runtime_sources
     src/platform/linux/x86_64/Start.s
-    src/core/Exit/Exith.c
+    src/sys/SysExit.c
 )
 
 function(add_mini_executable target source)
@@ -42,7 +42,7 @@ if(BUILD_TESTING)
     find_program(CMAKE_READELF NAMES readelf llvm-readelf REQUIRED)
     find_program(CMAKE_NM NAMES nm llvm-nm REQUIRED)
 
-    add_mini_executable(exit-status test/Exit.c)
+    add_mini_executable(exit-status test/SysExitTest.c)
 
     function(add_mini_test target status)
         add_test(NAME ${target}
