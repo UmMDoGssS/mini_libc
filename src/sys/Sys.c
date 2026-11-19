@@ -38,6 +38,10 @@ I32 SysCreat(const Char *path, U32 mode) {
     return SysOpen(path, OpenFlag__WrOnly | OpenFlag__Creat | OpenFlag__Trunc, mode);
 }
 
+I32 SysClose(I32 fd) {
+    return (I32) Syscall6(SyscallNumber__Close, fd, 0, 0, 0, 0, 0);
+}
+
 IPtr SysMmap(Any *address, USize length, I32 protection, I32 flags, I32 fd, I64 offset) {
     return Syscall6(SyscallNumber__Mmap, (IPtr) address, length, protection, flags, fd, offset);
 }

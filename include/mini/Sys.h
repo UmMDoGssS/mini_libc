@@ -59,6 +59,9 @@ Mini__I32 Mini__SysCreat(
     Mini__U32 mode
 );
 
+// Returns zero or a negative Linux error code.
+Mini__I32 Mini__SysClose(Mini__I32 fd);
+
 typedef enum {
     Mini__MmapProt__None  = 0,
     Mini__MmapProt__Read  = 0x1,

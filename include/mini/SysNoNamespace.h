@@ -36,6 +36,8 @@
 
 #define SysCreat Mini__SysCreat
 
+#define SysClose Mini__SysClose
+
 #define MmapProt__None  Mini__MmapProt__None
 #define MmapProt__Read  Mini__MmapProt__Read
 #define MmapProt__Write Mini__MmapProt__Write

@@ -69,5 +69,12 @@ int Main(void) {
         return 11;
     }
 
+    if (SysClose(output) != 0 ||
+        SysWrite(output, message, sizeof(buffer)) != -BadFileDescriptor ||
+        SysClose(output) != -BadFileDescriptor ||
+        SysClose(-1) != -BadFileDescriptor) {
+        return 12;
+    }
+
     return OkExitCode;
 }
