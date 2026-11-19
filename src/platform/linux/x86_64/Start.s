@@ -4,8 +4,7 @@
 _start:
     call Main
     movl %eax, %edi
-    movl $60, %eax    # Linux x86-64 exit
-    syscall
+    call Mini__Exit
     ud2
 .size _start, .-_start
 

@@ -1,6 +1,6 @@
 #include "mini/TypesNoNamespace.h"
-#include "SyscallNumberNoNamespace.h"
-#include "SyscallNoNamespace.h"
+#include "platform/linux/x86_64/SyscallNoNamespace.h"
+#include "platform/linux/x86_64/SyscallNumberNoNamespace.h"
 
 const I64 Stdout = 1;
 
