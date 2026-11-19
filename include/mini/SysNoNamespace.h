@@ -1,5 +1,5 @@
-#ifndef Mini__IncludedExitNoNamespaceH
-#define Mini__IncludedExitNoNamespaceH
+#ifndef Mini__IncludedSysNoNamespaceH
+#define Mini__IncludedSysNoNamespaceH
 
 #include "Sys.h"
 
@@ -52,4 +52,4 @@
 #define SysMmap   Mini__SysMmap
 #define SysMunmap Mini__SysMunmap
 
-#endif // Mini__IncludedExitNoNamespaceH
+#endif // Mini__IncludedSysNoNamespaceH

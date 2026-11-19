@@ -1,5 +1,5 @@
-#ifndef Mini__IncludedExitH
-#define Mini__IncludedExitH
+#ifndef Mini__IncludedSysH
+#define Mini__IncludedSysH
 
 #include "Types.h"
 
@@ -94,4 +94,4 @@ Mini__IPtr Mini__SysMmap(
 [[nodiscard]]
 Mini__I32 Mini__SysMunmap(Mini__Any *address, Mini__USize length);
 
-#endif // Mini__IncludedExitH
+#endif // Mini__IncludedSysH
