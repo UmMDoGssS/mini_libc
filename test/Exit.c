@@ -1,4 +1,4 @@
-#include "core/Exit/ExitNoNamespace.h"
+#include "mini/ExitNoNamespace.h"
 
 int Main(void) {
     Exit(23);

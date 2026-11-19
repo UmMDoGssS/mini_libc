@@ -1,7 +1,7 @@
 #include "mini/TypesNoNamespace.h"
-#include "../../platform/linux/x86_64/SyscallNoNamespace.h"
-#include "../../platform/linux/x86_64/SyscallNumberNoNamespace.h"
-#include "ExitNoNamespace.h"
+#include "mini/ExitNoNamespace.h"
+#include "platform/linux/x86_64/SyscallNoNamespace.h"
+#include "platform/linux/x86_64/SyscallNumberNoNamespace.h"
 
 const I32 OkExitCode = 0;
 const I32 ErrExitCode = 1;

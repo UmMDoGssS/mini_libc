@@ -1,8 +1,7 @@
 #ifndef Mini__IncludedExitH
 #define Mini__IncludedExitH
 
-#include "../../platform/linux/x86_64/Syscall.h"
-#include "../../platform/linux/x86_64/SyscallNumber.h"
+#include "Types.h"
 
 extern const Mini__I32 Mini__OkExitCode;
 extern const Mini__I32 Mini__ErrExitCode;
