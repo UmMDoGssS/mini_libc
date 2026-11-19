@@ -1,6 +1,8 @@
 #ifndef Mini__IncludedTypesNoNamespaceH
 #define Mini__IncludedTypesNoNamespaceH
 
+#include "Types.h"
+
 #define I8 Mini__I8
 #define I16 Mini__I16
 #define I32 Mini__I32
