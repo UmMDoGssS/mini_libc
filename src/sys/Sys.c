@@ -1,5 +1,6 @@
 #include "mini/TypesNoNamespace.h"
 #include "mini/SysNoNamespace.h"
+#include "platform/linux/x86_64/Signal.h"
 #include "platform/linux/x86_64/Syscall.h"
 #include "platform/linux/x86_64/SyscallNumber.h"
 
@@ -25,6 +26,51 @@ I32 SysKill(I32 pid, I32 sig) {
 
 I32 SysThreadKill(I32 pid, I32 tid, I32 sig) {
     return (I32) Syscall6(SyscallNumber__Tgkill, pid, tid, sig, 0, 0, 0);
+}
+
+I32 SysSigAction(I32 sig, const SigAction *action, SigAction *old_action) {
+    KernelSigAction new_kernel_action;
+    const KernelSigAction *new_action = nullptr;
+    if (action != nullptr) {
+        new_kernel_action.handler = action->handler;
+        new_kernel_action.flags = action->flags | RestorerFlag;
+        new_kernel_action.restorer = SysSigReturn;
+        new_kernel_action.mask = action->mask;
+        new_action = &new_kernel_action;
+    }
+
+    KernelSigAction old_kernel_action;
+    I32 status = (I32) Syscall6(
+        SyscallNumber__RtSigaction,
+        sig,
+        (IPtr) new_action,
+        (IPtr) (old_action != nullptr ? &old_kernel_action : nullptr),
+        sizeof(SigSet),
+        0,
+        0
+    );
+    if (status == 0 && old_action != nullptr) {
+        old_action->handler = old_kernel_action.handler;
+        old_action->flags = (U32) old_kernel_action.flags & ~(U32) RestorerFlag;
+        old_action->mask = old_kernel_action.mask;
+    }
+    return status;
+}
+
+I32 SysProcMask(I32 how, const SigSet *set, SigSet *old_set) {
+    return (I32) Syscall6(SyscallNumber__RtSigprocmask, how, (IPtr) set, (IPtr) old_set, sizeof(SigSet), 0, 0);
+}
+
+[[gnu::naked]]
+Void SysSigReturn(void) {
+    // The handler's ret leaves the stack pointer just past the signal frame's return address.
+    __asm__ volatile (
+        "movq %0, %%rax\n\t"
+        "syscall\n\t"
+        "ud2"
+        :
+        : "i"(SyscallNumber__RtSigreturn)
+    );
 }
 
 I64 SysRead(I32 fd, Any *buf, USize count) {
