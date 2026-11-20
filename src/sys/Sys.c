@@ -11,6 +11,22 @@ Void SysExit(I32 status) {
     __builtin_trap();
 }
 
+I32 SysGetProcId(void) {
+    return (I32) Syscall6(SyscallNumber__Getpid, 0, 0, 0, 0, 0, 0);
+}
+
+I32 SysGetThreadId(void) {
+    return (I32) Syscall6(SyscallNumber__Gettid, 0, 0, 0, 0, 0, 0);
+}
+
+I32 SysKill(I32 pid, I32 sig) {
+    return (I32) Syscall6(SyscallNumber__Kill, pid, sig, 0, 0, 0, 0);
+}
+
+I32 SysThreadKill(I32 pid, I32 tid, I32 sig) {
+    return (I32) Syscall6(SyscallNumber__Tgkill, pid, tid, sig, 0, 0, 0);
+}
+
 I64 SysRead(I32 fd, Any *buf, USize count) {
     return Syscall6(SyscallNumber__Read, fd, (I64) buf, count, 0, 0, 0);
 }

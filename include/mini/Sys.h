@@ -10,6 +10,62 @@ extern const Mini__I32 Mini__ErrExitCode;
 Mini__Void Mini__SysExit(Mini__I32 status);
 
 [[nodiscard]]
+Mini__I32 Mini__SysGetProcId(void);
+
+[[nodiscard]]
+Mini__I32 Mini__SysGetThreadId(void);
+
+// Native Linux x86-64 signal numbers. Every number from RtMin through RtMax is valid.
+typedef enum Mini__Sig {
+    Mini__Sig__None   = 0,
+    Mini__Sig__Hup    = 1,
+    Mini__Sig__Int    = 2,
+    Mini__Sig__Quit   = 3,
+    Mini__Sig__Ill    = 4,
+    Mini__Sig__Trap   = 5,
+    Mini__Sig__Abrt   = 6,
+    Mini__Sig__Iot    = Mini__Sig__Abrt,
+    Mini__Sig__Bus    = 7,
+    Mini__Sig__Fpe    = 8,
+    Mini__Sig__Kill   = 9,
+    Mini__Sig__Usr1   = 10,
+    Mini__Sig__Segv   = 11,
+    Mini__Sig__Usr2   = 12,
+    Mini__Sig__Pipe   = 13,
+    Mini__Sig__Alrm   = 14,
+    Mini__Sig__Term   = 15,
+    Mini__Sig__StkFlt = 16,
+    Mini__Sig__Chld   = 17,
+    Mini__Sig__Cont   = 18,
+    Mini__Sig__Stop   = 19,
+    Mini__Sig__Tstp   = 20,
+    Mini__Sig__Ttin   = 21,
+    Mini__Sig__Ttou   = 22,
+    Mini__Sig__Urg    = 23,
+    Mini__Sig__Xcpu   = 24,
+    Mini__Sig__Xfsz   = 25,
+    Mini__Sig__VtAlrm = 26,
+    Mini__Sig__Prof   = 27,
+    Mini__Sig__Winch  = 28,
+    Mini__Sig__Io     = 29,
+    Mini__Sig__Poll   = Mini__Sig__Io,
+    Mini__Sig__Pwr    = 30,
+    Mini__Sig__Sys    = 31,
+    Mini__Sig__Unused = Mini__Sig__Sys,
+    Mini__Sig__RtMin  = 32,
+    Mini__Sig__RtMax  = 64,
+} Mini__Sig;
+
+// Both signal wrappers return zero or a negative Linux errno.
+// Mini__Sig__None checks the target and permissions without delivering a signal.
+[[nodiscard]]
+Mini__I32 Mini__SysKill(Mini__I32 pid, Mini__I32 sig);
+
+// The target thread must belong to the process identified by pid.
+[[nodiscard]]
+Mini__I32 Mini__SysThreadKill(Mini__I32 pid, Mini__I32 tid, Mini__I32 sig);
+
+[[nodiscard]]
 Mini__I64 Mini__SysRead(
     Mini__I32 fd,
     Mini__Any *buf,

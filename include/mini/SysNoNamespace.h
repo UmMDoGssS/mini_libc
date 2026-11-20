@@ -8,6 +8,51 @@
 
 #define SysExit Mini__SysExit
 
+#define SysGetProcId   Mini__SysGetProcId
+#define SysGetThreadId Mini__SysGetThreadId
+
+#define Sig__None   Mini__Sig__None
+#define Sig__Hup    Mini__Sig__Hup
+#define Sig__Int    Mini__Sig__Int
+#define Sig__Quit   Mini__Sig__Quit
+#define Sig__Ill    Mini__Sig__Ill
+#define Sig__Trap   Mini__Sig__Trap
+#define Sig__Abrt   Mini__Sig__Abrt
+#define Sig__Iot    Mini__Sig__Iot
+#define Sig__Bus    Mini__Sig__Bus
+#define Sig__Fpe    Mini__Sig__Fpe
+#define Sig__Kill   Mini__Sig__Kill
+#define Sig__Usr1   Mini__Sig__Usr1
+#define Sig__Segv   Mini__Sig__Segv
+#define Sig__Usr2   Mini__Sig__Usr2
+#define Sig__Pipe   Mini__Sig__Pipe
+#define Sig__Alrm   Mini__Sig__Alrm
+#define Sig__Term   Mini__Sig__Term
+#define Sig__StkFlt Mini__Sig__StkFlt
+#define Sig__Chld   Mini__Sig__Chld
+#define Sig__Cont   Mini__Sig__Cont
+#define Sig__Stop   Mini__Sig__Stop
+#define Sig__Tstp   Mini__Sig__Tstp
+#define Sig__Ttin   Mini__Sig__Ttin
+#define Sig__Ttou   Mini__Sig__Ttou
+#define Sig__Urg    Mini__Sig__Urg
+#define Sig__Xcpu   Mini__Sig__Xcpu
+#define Sig__Xfsz   Mini__Sig__Xfsz
+#define Sig__VtAlrm Mini__Sig__VtAlrm
+#define Sig__Prof   Mini__Sig__Prof
+#define Sig__Winch  Mini__Sig__Winch
+#define Sig__Io     Mini__Sig__Io
+#define Sig__Poll   Mini__Sig__Poll
+#define Sig__Pwr    Mini__Sig__Pwr
+#define Sig__Sys    Mini__Sig__Sys
+#define Sig__Unused Mini__Sig__Unused
+#define Sig__RtMin  Mini__Sig__RtMin
+#define Sig__RtMax  Mini__Sig__RtMax
+#define Sig         Mini__Sig
+
+#define SysKill       Mini__SysKill
+#define SysThreadKill Mini__SysThreadKill
+
 #define SysRead Mini__SysRead
 
 #define SysWrite Mini__SysWrite
