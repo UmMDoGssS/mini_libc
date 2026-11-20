@@ -53,6 +53,31 @@
 #define SysKill       Mini__SysKill
 #define SysThreadKill Mini__SysThreadKill
 
+#define SigSet Mini__SigSet
+
+#define SigActionFlag__NoCldStop Mini__SigActionFlag__NoCldStop
+#define SigActionFlag__NoCldWait Mini__SigActionFlag__NoCldWait
+#define SigActionFlag__SigInfo   Mini__SigActionFlag__SigInfo
+#define SigActionFlag__OnStack   Mini__SigActionFlag__OnStack
+#define SigActionFlag__Restart   Mini__SigActionFlag__Restart
+#define SigActionFlag__NoDefer   Mini__SigActionFlag__NoDefer
+#define SigActionFlag__ResetHand Mini__SigActionFlag__ResetHand
+#define SigActionFlag            Mini__SigActionFlag
+
+#define SigHandler__Default Mini__SigHandler__Default
+#define SigHandler__Ignore  Mini__SigHandler__Ignore
+#define SigHandler          Mini__SigHandler
+#define SigAction           Mini__SigAction
+
+#define SigMaskHow__Block   Mini__SigMaskHow__Block
+#define SigMaskHow__Unblock Mini__SigMaskHow__Unblock
+#define SigMaskHow__SetMask Mini__SigMaskHow__SetMask
+#define SigMaskHow          Mini__SigMaskHow
+
+#define SysSigAction  Mini__SysSigAction
+#define SysProcMask   Mini__SysProcMask
+#define SysSigReturn  Mini__SysSigReturn
+
 #define SysRead Mini__SysRead
 
 #define SysWrite Mini__SysWrite

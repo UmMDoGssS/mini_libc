@@ -5,7 +5,6 @@
 enum {
     NoSuchProcess = 3,
     InvalidArgument = 22,
-    SigBlock = 0,
 };
 
 int Main(void) {
@@ -30,14 +29,14 @@ int Main(void) {
     // Keep both test signals blocked so the kernel records their delivery.
     const Sig process_sig = Sig__Usr1;
     const Sig thread_sig = Sig__RtMax;
-    const U64 mask = ((U64) 1 << (process_sig - 1)) | ((U64) 1 << (thread_sig - 1));
-    if (Syscall6(SyscallNumber__RtSigprocmask, SigBlock, (IPtr) &mask, 0, sizeof(mask), 0, 0) != 0) {
+    const SigSet mask = ((U64) 1 << (process_sig - 1)) | ((U64) 1 << (thread_sig - 1));
+    if (SysProcMask(SigMaskHow__Block, &mask, nullptr) != 0) {
         return 5;
     }
     if (SysKill(pid, process_sig) != 0 || SysThreadKill(pid, tid, thread_sig) != 0) {
         return 6;
     }
-    U64 pending;
+    SigSet pending;
     if (Syscall6(SyscallNumber__RtSigpending, (IPtr) &pending, sizeof(pending), 0, 0, 0, 0) != 0 ||
         (pending & mask) != mask) {
         return 7;

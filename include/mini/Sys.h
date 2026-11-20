@@ -65,6 +65,63 @@ Mini__I32 Mini__SysKill(Mini__I32 pid, Mini__I32 sig);
 [[nodiscard]]
 Mini__I32 Mini__SysThreadKill(Mini__I32 pid, Mini__I32 tid, Mini__I32 sig);
 
+// Signal number n uses bit n - 1.
+typedef Mini__U64 Mini__SigSet;
+
+typedef enum Mini__SigActionFlag : Mini__U32 {
+    Mini__SigActionFlag__NoCldStop = 0x00000001,
+    Mini__SigActionFlag__NoCldWait = 0x00000002,
+    Mini__SigActionFlag__SigInfo   = 0x00000004,
+    Mini__SigActionFlag__OnStack   = 0x08000000,
+    Mini__SigActionFlag__Restart   = 0x10000000,
+    Mini__SigActionFlag__NoDefer   = 0x40000000,
+    Mini__SigActionFlag__ResetHand = 0x80000000,
+} Mini__SigActionFlag;
+
+typedef union Mini__SigHandler {
+    Mini__Void (*simple)(Mini__I32 sig);
+    // The kernel's info and context pointers are borrowed for the handler call.
+    Mini__Void (*with_info)(Mini__I32 sig, Mini__Any *info, Mini__Any *context);
+} Mini__SigHandler;
+
+#define Mini__SigHandler__Default ((Mini__Void (*)(Mini__I32)) 0)
+#define Mini__SigHandler__Ignore  ((Mini__Void (*)(Mini__I32)) 1)
+
+typedef struct Mini__SigAction {
+    // Use with_info with Mini__SigActionFlag__SigInfo, and simple otherwise.
+    Mini__SigHandler handler;
+    Mini__U32 flags;
+    Mini__SigSet mask;
+} Mini__SigAction;
+
+// A null action queries the disposition. A null old_action skips the previous value.
+// The runtime supplies the signal restorer. Returns zero or a negative Linux errno.
+[[nodiscard]]
+Mini__I32 Mini__SysSigAction(
+    Mini__I32 sig,
+    const Mini__SigAction *action,
+    Mini__SigAction *old_action
+);
+
+typedef enum Mini__SigMaskHow {
+    Mini__SigMaskHow__Block   = 0,
+    Mini__SigMaskHow__Unblock = 1,
+    Mini__SigMaskHow__SetMask = 2,
+} Mini__SigMaskHow;
+
+// Changes the calling thread's mask. A null set queries it and ignores how.
+// A null old_set skips the previous mask. Returns zero or a negative Linux errno.
+[[nodiscard]]
+Mini__I32 Mini__SysProcMask(
+    Mini__I32 how,
+    const Mini__SigSet *set,
+    Mini__SigSet *old_set
+);
+
+// Kernel signal-restorer entry point. A normal C call has no signal frame.
+[[noreturn]]
+Mini__Void Mini__SysSigReturn(void);
+
 [[nodiscard]]
 Mini__I64 Mini__SysRead(
     Mini__I32 fd,

@@ -18,6 +18,8 @@ set(CMAKE_C_EXTENSIONS OFF)
 
 set(runtime_sources
     src/core/Error.c
+    src/platform/linux/x86_64/Signal.c
+    src/platform/linux/x86_64/SigReturn.s
     src/platform/linux/x86_64/Start.s
     src/sys/Sys.c
 )
@@ -47,6 +49,7 @@ if(BUILD_TESTING)
     add_mini_executable(sys-io test/SysIoTest.c)
     add_mini_executable(sys-mmap test/SysMmapTest.c)
     add_mini_executable(sys-signal test/SysSignalTest.c)
+    add_mini_executable(sys-sigaction test/SysSigActionTest.c)
 
     function(add_mini_test target status)
         add_test(NAME ${target}
@@ -65,4 +68,5 @@ if(BUILD_TESTING)
     add_mini_test(sys-io 0 -DISOLATE_FILES=ON)
     add_mini_test(sys-mmap 0 -DISOLATE_FILES=ON)
     add_mini_test(sys-signal 0)
+    add_mini_test(sys-sigaction 0)
 endif()
