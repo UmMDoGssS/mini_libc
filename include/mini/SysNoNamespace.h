@@ -3,11 +3,6 @@
 
 #include "Sys.h"
 
-#define OkExitCode  Mini__OkExitCode
-#define ErrExitCode Mini__ErrExitCode
-
-#define SysExit Mini__SysExit
-
 #define SysGetProcId   Mini__SysGetProcId
 #define SysGetThreadId Mini__SysGetThreadId
 
@@ -49,6 +44,15 @@
 #define Sig__RtMin  Mini__Sig__RtMin
 #define Sig__RtMax  Mini__Sig__RtMax
 #define Sig         Mini__Sig
+
+#define OkExitCode  Mini__OkExitCode
+#define ErrExitCode Mini__ErrExitCode
+
+#define SysExit Mini__SysExit
+
+#define SysRaise Mini__SysRaise
+
+#define SysAbort Mini__SysAbort
 
 #define SysKill       Mini__SysKill
 #define SysThreadKill Mini__SysThreadKill

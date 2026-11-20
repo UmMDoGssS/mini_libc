@@ -3,12 +3,6 @@
 
 #include "Types.h"
 
-extern const Mini__I32 Mini__OkExitCode;
-extern const Mini__I32 Mini__ErrExitCode;
-
-[[noreturn]]
-Mini__Void Mini__SysExit(Mini__I32 status);
-
 [[nodiscard]]
 Mini__I32 Mini__SysGetProcId(void);
 
@@ -121,6 +115,17 @@ Mini__I32 Mini__SysProcMask(
 // Kernel signal-restorer entry point. A normal C call has no signal frame.
 [[noreturn]]
 Mini__Void Mini__SysSigReturn(void);
+
+extern const Mini__I32 Mini__OkExitCode;
+extern const Mini__I32 Mini__ErrExitCode;
+
+[[noreturn]]
+Mini__Void Mini__SysExit(Mini__I32 status);
+
+Mini__I32 Mini__SysRaise(Mini__I32 sig);
+
+[[noreturn]]
+Mini__Void Mini__SysAbort(void);
 
 [[nodiscard]]
 Mini__I64 Mini__SysRead(

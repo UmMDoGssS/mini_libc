@@ -48,6 +48,7 @@ if(BUILD_TESTING)
     add_mini_executable(sys-mmap test/SysMmapTest.c)
     add_mini_executable(sys-signal test/SysSignalTest.c)
     add_mini_executable(sys-sigaction test/SysSigActionTest.c)
+    add_mini_executable(sys-abort test/SysAbortTest.c)
 
     function(add_mini_test target status)
         add_test(NAME ${target}
@@ -67,4 +68,5 @@ if(BUILD_TESTING)
     add_mini_test(sys-mmap 0 -DISOLATE_FILES=ON)
     add_mini_test(sys-signal 0)
     add_mini_test(sys-sigaction 0)
+    add_mini_test(sys-abort 0)
 endif()

@@ -1,16 +1,9 @@
+#include "mini/Sys.h"
 #include "mini/TypesNoNamespace.h"
 #include "mini/SysNoNamespace.h"
 #include "platform/linux/x86_64/Signal.h"
 #include "platform/linux/x86_64/Syscall.h"
 #include "platform/linux/x86_64/SyscallNumber.h"
-
-const I32 OkExitCode = 0;
-const I32 ErrExitCode = 1;
-
-Void SysExit(I32 status) {
-    Syscall6(SyscallNumber__ExitGroup, status, 0, 0, 0, 0, 0);
-    __builtin_trap();
-}
 
 I32 SysGetProcId(void) {
     return (I32) Syscall6(SyscallNumber__Getpid, 0, 0, 0, 0, 0, 0);
@@ -71,6 +64,39 @@ Void SysSigReturn(void) {
         :
         : "i"(SyscallNumber__RtSigreturn)
     );
+}
+
+const I32 OkExitCode = 0;
+const I32 ErrExitCode = 1;
+
+Void SysExit(I32 status) {
+    Syscall6(SyscallNumber__ExitGroup, status, 0, 0, 0, 0, 0);
+    __builtin_trap();
+}
+
+I32 SysRaise(I32 sig) {
+    return SysThreadKill(SysGetProcId(), SysGetThreadId(), sig);
+}
+
+Void SysAbort(void) {
+    static _Atomic Bool abort_started;
+    static const SigAction sig_action = {
+        .handler.simple = SigHandler__Default,
+        .flags = 0,
+        .mask = 0,
+    };
+    const SigSet set = (SigSet) 1 << (Sig__Abrt - 1);
+
+    // Only the first caller attempts to run the installed handler.
+    if (!__c11_atomic_exchange(&abort_started, true, __ATOMIC_RELAXED)) {
+        (Void) SysProcMask(SigMaskHow__Unblock, &set, nullptr);
+        (Void) SysRaise(Sig__Abrt);
+    }
+
+    (Void) SysSigAction(Sig__Abrt, &sig_action, nullptr);
+    (Void) SysProcMask(SigMaskHow__Unblock, &set, nullptr);
+    (Void) SysRaise(Sig__Abrt);
+    SysExit(128 + Sig__Abrt);
 }
 
 I64 SysRead(I32 fd, Any *buf, USize count) {
