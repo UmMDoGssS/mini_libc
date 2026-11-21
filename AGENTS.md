@@ -15,8 +15,9 @@ mini_libc is a learning project for understanding how a C runtime and library wo
 
 - Use `Mini` as the public namespace and `__` as the namespace separator.
 - Use PascalCase for functions, types, struct and enum names, enumerators, and compile-time constants. For example, use `Mini__PrintF` and `Mini__StringView`.
-- Use `_` suffix for private or implementation details.
-- Use snake_case for variables and fields. Keep ABI-mandated spellings such as `start_` at the runtime boundary.
+- Use a trailing `_` for implementation details declared or defined in headers under `include/`.
+- Use snake_case for variables and fields. Keep ABI-mandated spellings such as `_start` at the runtime boundary.
+- Function-pointer fields in read-only, statically initialized structs may use PascalCase.
 - Expose fully qualified names in public headers. Public headers may also offer explicit short aliases such as `#define PrintF Mini__PrintF` inside `<OriginalFileName>NoNamespace.h`.
 
 ## API conventions

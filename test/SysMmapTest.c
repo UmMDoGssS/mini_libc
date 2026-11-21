@@ -40,7 +40,7 @@ int Main(void) {
 
     static const U8 marker = 91;
     I32 fd = SysOpen("mapped", OpenFlag__RdWr | OpenFlag__Creat | OpenFlag__Excl, 0600);
-    if (fd < 0 || SysLseek(fd, PageSize, SeekWhence__Set) != PageSize ||
+    if (fd < 0 || SysSeek(fd, PageSize, SeekWhence__Set) != PageSize ||
         SysWrite(fd, &marker, sizeof(marker)) != sizeof(marker)) {
         return 6;
     }

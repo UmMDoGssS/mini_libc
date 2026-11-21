@@ -80,7 +80,6 @@
 
 #define SysSigAction Mini__SysSigAction
 #define SysProcMask  Mini__SysProcMask
-#define SysSigReturn Mini__SysSigReturn
 
 #define SysRead Mini__SysRead
 
@@ -91,7 +90,7 @@
 #define SeekWhence__End Mini__SeekWhence__End
 #define SeekWhence      Mini__SeekWhence
 
-#define SysLseek Mini__SysLseek
+#define SysSeek Mini__SysSeek
 
 #define OpenFlag__RdOnly Mini__OpenFlag__RdOnly
 #define OpenFlag__WrOnly Mini__OpenFlag__WrOnly
@@ -106,9 +105,9 @@
 
 #define AtFdcwd Mini__AtFdcwd
 
-#define SysOpenat Mini__SysOpenat
+#define SysOpenAt Mini__SysOpenAt
 
-#define SysCreat Mini__SysCreat
+#define SysCreate Mini__SysCreate
 
 #define SysClose Mini__SysClose
 

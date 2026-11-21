@@ -24,7 +24,7 @@
 
 #define Mini__MakeVarFieldImpl_(Type, Tag, Var) Type Mini__MangleVarName_(Var);
 
-#define Mini__Eval(...)   Mini__Eval1_(Mini__Eval1_(Mini__Eval1_(__VA_ARGS__)))
+#define Mini__Eval_(...)  Mini__Eval1_(Mini__Eval1_(Mini__Eval1_(__VA_ARGS__)))
 #define Mini__Eval1_(...) Mini__Eval2_(Mini__Eval2_(Mini__Eval2_(__VA_ARGS__)))
 #define Mini__Eval2_(...) Mini__Eval3_(Mini__Eval3_(Mini__Eval3_(__VA_ARGS__)))
 
@@ -38,7 +38,7 @@
     Macro(Name, First) __VA_OPT__(Mini__ForEachAgain_ Mini__Parens_(Macro, Name, __VA_ARGS__))
 
 #define Mini__ForEach_(Macro, Name, ...) \
-    __VA_OPT__(Mini__Eval(Mini__ForEachImpl_(Macro, Name, __VA_ARGS__)))
+    __VA_OPT__(Mini__Eval_(Mini__ForEachImpl_(Macro, Name, __VA_ARGS__)))
 
 #define Mini__DeclareSumType(Name, ...)                                       \
     typedef struct Name {                                                     \

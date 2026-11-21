@@ -4,6 +4,10 @@
 #include "platform/linux/x86_64/Syscall.h"
 #include "platform/linux/x86_64/SyscallNumber.h"
 
+// Kernel signal-restorer entry point. A normal C call has no signal frame.
+[[noreturn, gnu::naked]]
+static void SysSigReturn(void);
+
 I32 SysGetProcId(void) {
     return (I32) Syscall6(SyscallNumber__Getpid, 0, 0, 0, 0, 0, 0);
 }
@@ -63,8 +67,7 @@ I32 SysProcMask(I32 how, const SigSet *set, SigSet *old_set) {
     // clang-format on
 }
 
-[[gnu::naked]]
-void SysSigReturn(void) {
+static void SysSigReturn(void) {
     // The handler's ret leaves the stack pointer just past the signal frame's return address.
 
     // clang-format off: Keep the syscall formatting
@@ -119,21 +122,21 @@ I64 SysWrite(I32 fd, const Any *buf, USize count) {
     return Syscall6(SyscallNumber__Write, fd, (I64) buf, count, 0, 0, 0);
 }
 
-I64 SysLseek(I32 fd, I64 offset, I32 whence) {
+I64 SysSeek(I32 fd, I64 offset, I32 whence) {
     return Syscall6(SyscallNumber__Lseek, fd, offset, whence, 0, 0, 0);
 }
 
 I32 SysOpen(const char *path, I32 flags, U32 mode) {
-    return SysOpenat(AtFdcwd, path, flags, mode);
+    return SysOpenAt(AtFdcwd, path, flags, mode);
 }
 
 const I32 AtFdcwd = -100;
 
-I32 SysOpenat(I32 dirfd, const char *path, I32 flags, U32 mode) {
-    return (I32) Syscall6(SyscallNumber__Openat, dirfd, (I64) path, flags, mode, 0, 0);
+I32 SysOpenAt(I32 dir_fd, const char *path, I32 flags, U32 mode) {
+    return (I32) Syscall6(SyscallNumber__Openat, dir_fd, (I64) path, flags, mode, 0, 0);
 }
 
-I32 SysCreat(const char *path, U32 mode) {
+I32 SysCreate(const char *path, U32 mode) {
     return SysOpen(path, OpenFlag__WrOnly | OpenFlag__Creat | OpenFlag__Trunc, mode);
 }
 

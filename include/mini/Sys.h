@@ -108,10 +108,6 @@ typedef enum Mini__SigMaskHow {
 [[nodiscard]]
 Mini__I32 Mini__SysProcMask(Mini__I32 how, const Mini__SigSet *set, Mini__SigSet *old_set);
 
-// Kernel signal-restorer entry point. A normal C call has no signal frame.
-[[noreturn]]
-void Mini__SysSigReturn(void);
-
 extern const Mini__I32 Mini__OkExitCode;
 extern const Mini__I32 Mini__ErrExitCode;
 
@@ -137,7 +133,7 @@ typedef enum {
 } Mini__SeekWhence;
 
 [[nodiscard]]
-Mini__I64 Mini__SysLseek(Mini__I32 fd, Mini__I64 offset, Mini__I32 whence);
+Mini__I64 Mini__SysSeek(Mini__I32 fd, Mini__I64 offset, Mini__I32 whence);
 
 typedef enum {
     Mini__OpenFlag__RdOnly = 0,
@@ -155,10 +151,10 @@ Mini__I32 Mini__SysOpen(const char *path, Mini__I32 flags, Mini__U32 mode);
 extern const Mini__I32 Mini__AtFdcwd;
 
 [[nodiscard]]
-Mini__I32 Mini__SysOpenat(Mini__I32 dirfd, const char *path, Mini__I32 flags, Mini__U32 mode);
+Mini__I32 Mini__SysOpenAt(Mini__I32 dir_fd, const char *path, Mini__I32 flags, Mini__U32 mode);
 
 [[nodiscard]]
-Mini__I32 Mini__SysCreat(const char *path, Mini__U32 mode);
+Mini__I32 Mini__SysCreate(const char *path, Mini__U32 mode);
 
 [[nodiscard]]
 Mini__I32 Mini__SysClose(Mini__I32 fd);
