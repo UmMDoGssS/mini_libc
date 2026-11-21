@@ -37,13 +37,16 @@ void Mini__Panic_(const char *location, Mini__USize length);
  * - `MakeErr(error)` constructs a result containing an error value of type @p E.
  * - `IsOk(self)` tests whether the result contains a success value.
  * - `IsErr(self)` tests whether the result contains an error value.
+ * - `GetOk(self)` returns a read-only pointer to the success value, or `nullptr` on an error.
+ * - `GetErr(self)` returns a read-only pointer to the error value, or `nullptr` on success.
  * - `Unwrap(self)` returns the success value by value and panics on an error.
  * - `UnwrapOr(self, fallback)` returns the success value or the supplied fallback by value.
  *
- * Pass a non-null pointer to an initialized result as `self`. The methods borrow the pointer
- * for the duration of the call. The call to `UnwrapOr` evaluates its fallback argument even
- * when the result contains a success value. `Unwrap` reports the location of the
- * Mini__DefineResult expansion when it panics.
+ * Pass a non-null pointer to an initialized result as `self`. Pointers returned by `GetOk`
+ * and `GetErr` borrow the payload and are valid while the result lives and holds that variant.
+ * The call to `UnwrapOr` evaluates its fallback argument even when the result contains a
+ * success value. `Unwrap` reports the location of the Mini__DefineResult expansion when it
+ * panics.
  * @see Mini__DefineResult
  */
 #define Mini__ResultMth(T, E) \
@@ -92,21 +95,35 @@ void Mini__Panic_(const char *location, Mini__USize length);
                                                                                                    \
     /* IsOk(self) -> bool */                                                                       \
     static inline bool Mini__ConcatMacro(Mini__ResultMth(T, E), __IsOk_)(                          \
-        Mini__Result(T, E) *self                                                                   \
+        const Mini__Result(T, E) *self                                                             \
     ) {                                                                                            \
         return self->tag_ == Mini__ConcatMacro(Mini__Result(T, E), __Ok_);                         \
     }                                                                                              \
                                                                                                    \
     /* IsErr(self) -> bool */                                                                      \
     static inline bool Mini__ConcatMacro(Mini__ResultMth(T, E), __IsErr_)(                         \
-        Mini__Result(T, E) *self                                                                   \
+        const Mini__Result(T, E) *self                                                             \
     ) {                                                                                            \
         return self->tag_ == Mini__ConcatMacro(Mini__Result(T, E), __Err_);                        \
     }                                                                                              \
                                                                                                    \
+    /* GetOk(self) -> const T * */                                                                 \
+    static inline const T *Mini__ConcatMacro(Mini__ResultMth(T, E), __GetOk_)(                     \
+        const Mini__Result(T, E) *self                                                             \
+    ) {                                                                                            \
+        return Mini__ConcatMacro(Mini__ResultMth(T, E), __IsOk_)(self) ? &self->ok_ : nullptr;     \
+    }                                                                                              \
+                                                                                                   \
+    /* GetErr(self) -> const E * */                                                                \
+    static inline const E *Mini__ConcatMacro(Mini__ResultMth(T, E), __GetErr_)(                    \
+        const Mini__Result(T, E) *self                                                             \
+    ) {                                                                                            \
+        return Mini__ConcatMacro(Mini__ResultMth(T, E), __IsErr_)(self) ? &self->err_ : nullptr;   \
+    }                                                                                              \
+                                                                                                   \
     /* Unwrap(self) -> T */                                                                        \
     static inline T Mini__ConcatMacro(Mini__ResultMth(T, E), __Unwrap_)(                           \
-        Mini__Result(T, E) *self                                                                   \
+        const Mini__Result(T, E) *self                                                             \
     ) {                                                                                            \
         if (Mini__ConcatMacro(Mini__ResultMth(T, E), __IsErr_)(self)) {                            \
             Mini__Panic();                                                                         \
@@ -117,7 +134,7 @@ void Mini__Panic_(const char *location, Mini__USize length);
                                                                                                    \
     /* UnwrapOr(self, T val) -> T */                                                               \
     static inline T Mini__ConcatMacro(Mini__ResultMth(T, E), __UnwrapOr_)(                         \
-        Mini__Result(T, E) *self,                                                                  \
+        const Mini__Result(T, E) *self,                                                            \
         T val                                                                                      \
     ) {                                                                                            \
         if (Mini__ConcatMacro(Mini__ResultMth(T, E), __IsErr_)(self)) {                            \
@@ -134,19 +151,26 @@ void Mini__Panic_(const char *location, Mini__USize length);
         Mini__Result(T, E) (*MakeErr)(E err);                                                      \
                                                                                                    \
         [[nodiscard, gnu::nonnull(1)]]                                                             \
-        bool (*IsOk)(Mini__Result(T, E) *self);                                                    \
+        bool (*IsOk)(const Mini__Result(T, E) *self);                                              \
         [[nodiscard, gnu::nonnull(1)]]                                                             \
-        bool (*IsErr)(Mini__Result(T, E) *self);                                                   \
+        bool (*IsErr)(const Mini__Result(T, E) *self);                                             \
                                                                                                    \
         [[nodiscard, gnu::nonnull(1)]]                                                             \
-        T (*Unwrap)(Mini__Result(T, E) *self);                                                     \
+        const T *(*GetOk)(const Mini__Result(T, E) *self);                                         \
         [[nodiscard, gnu::nonnull(1)]]                                                             \
-        T (*UnwrapOr)(Mini__Result(T, E) *self, T val);                                            \
+        const E *(*GetErr)(const Mini__Result(T, E) *self);                                        \
+                                                                                                   \
+        [[nodiscard, gnu::nonnull(1)]]                                                             \
+        T (*Unwrap)(const Mini__Result(T, E) *self);                                               \
+        [[nodiscard, gnu::nonnull(1)]]                                                             \
+        T (*UnwrapOr)(const Mini__Result(T, E) *self, T val);                                      \
     } Mini__ResultMth(T, E) = {                                                                    \
         .MakeOk   = Mini__ConcatMacro(Mini__ResultMth(T, E), __MakeOk_),                           \
         .MakeErr  = Mini__ConcatMacro(Mini__ResultMth(T, E), __MakeErr_),                          \
         .IsOk     = Mini__ConcatMacro(Mini__ResultMth(T, E), __IsOk_),                             \
         .IsErr    = Mini__ConcatMacro(Mini__ResultMth(T, E), __IsErr_),                            \
+        .GetOk    = Mini__ConcatMacro(Mini__ResultMth(T, E), __GetOk_),                            \
+        .GetErr   = Mini__ConcatMacro(Mini__ResultMth(T, E), __GetErr_),                           \
         .Unwrap   = Mini__ConcatMacro(Mini__ResultMth(T, E), __Unwrap_),                           \
         .UnwrapOr = Mini__ConcatMacro(Mini__ResultMth(T, E), __UnwrapOr_),                         \
     }
