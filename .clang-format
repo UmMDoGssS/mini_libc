@@ -34,7 +34,7 @@ BreakStringLiterals: false
 AlwaysBreakBeforeMultilineStrings: true
 SkipMacroDefinitionBody: true
 StatementMacros:
-  - Mini__DefineResult
-  - DefineResult
+  - Mini__DefineRes
+  - DefineRes
   - Mini__DeclareSumType
   - DeclareSumType

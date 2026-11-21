@@ -12,11 +12,11 @@
 /** @copydoc Mini__Panic */
 #define Panic Mini__Panic
 
-/** @copydoc Mini__Result */
-#define Result Mini__Result
-/** @copydoc Mini__ResultMth */
-#define ResultMth Mini__ResultMth
-/** @copydoc Mini__DefineResult */
-#define DefineResult Mini__DefineResult
+/** @copydoc Mini__Res */
+#define Res Mini__Res
+/** @copydoc Mini__ResMth */
+#define ResMth Mini__ResMth
+/** @copydoc Mini__DefineRes */
+#define DefineRes Mini__DefineRes
 
 #endif // Mini__ErrorNoNamespaceH_
