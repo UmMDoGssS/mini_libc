@@ -32,9 +32,9 @@ SortIncludes:
 ReflowComments: Never
 BreakStringLiterals: false
 AlwaysBreakBeforeMultilineStrings: true
-SkipMacroDefinitionBody: false
+SkipMacroDefinitionBody: true
 StatementMacros:
-  - Mini__DefineResultType
-  - DefineResultType
+  - Mini__DefineResult
+  - DefineResult
   - Mini__DeclareSumType
   - DeclareSumType
