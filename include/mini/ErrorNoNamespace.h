@@ -6,6 +6,6 @@
 #define Panic Mini__Panic
 
 #define ResultType Mini__ResultType
-#define DefineResutlType Mini__ResultType
+#define DefineResultType Mini__DefineResultType
 
 #endif // Mini__ErrorNoNamespaceH_

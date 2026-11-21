@@ -18,6 +18,7 @@ set(CMAKE_C_EXTENSIONS OFF)
 
 set(runtime_sources
     src/core/Error.c
+    src/core/Memory.c
     src/platform/linux/x86_64/Start.s
     src/sys/Sys.c
 )
@@ -49,6 +50,8 @@ if(BUILD_TESTING)
     add_mini_executable(sys-signal test/SysSignalTest.c)
     add_mini_executable(sys-sigaction test/SysSigActionTest.c)
     add_mini_executable(sys-abort test/SysAbortTest.c)
+    add_mini_executable(result test/ResultTest.c)
+    target_sources(result PRIVATE test/ResultTestFixture.c)
 
     function(add_mini_test target status)
         add_test(NAME ${target}
@@ -69,4 +72,5 @@ if(BUILD_TESTING)
     add_mini_test(sys-signal 0)
     add_mini_test(sys-sigaction 0)
     add_mini_test(sys-abort 0)
+    add_mini_test(result 0)
 endif()
