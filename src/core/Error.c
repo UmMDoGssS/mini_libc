@@ -4,7 +4,7 @@
 
 static const I32 Stderr = 2;
 
-Void Mini__Panic_(const Char *location, USize length) {
-    (Void) SysWrite(Stderr, location, length);
+void Mini__Panic_(const char *location, USize length) {
+    (void) SysWrite(Stderr, location, length);
     SysAbort();
 }

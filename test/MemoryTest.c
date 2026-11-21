@@ -1,10 +1,10 @@
 #include "mini/TypesNoNamespace.h"
 
-Void *memset(Any *destination, int value, USize length);
-Void *memmove(Any *destination, const Any *source, USize length);
+Any *memset(Any *destination, int value, USize length);
+Any *memmove(Any *destination, const Any *source, USize length);
 int memcmp(const Any *left, const Any *right, USize length);
 
-static Bool CheckMemset(void) {
+static bool CheckMemset(void) {
     Byte bytes[] = { 1, 2, 3, 4, 5 };
 
     return memset(bytes + 1, 0x1a5, 3) == bytes + 1 &&
@@ -13,7 +13,7 @@ static Bool CheckMemset(void) {
         bytes[3] == 0xa5 && bytes[4] == 5;
 }
 
-static Bool CheckMemmove(void) {
+static bool CheckMemmove(void) {
     Byte bytes[] = { 1, 2, 3, 4, 5 };
 
     if (memmove(bytes + 1, bytes, 4) != bytes + 1 ||
@@ -29,7 +29,7 @@ static Bool CheckMemmove(void) {
         bytes[3] == 4 && bytes[4] == 4;
 }
 
-static Bool CheckMemcmp(void) {
+static bool CheckMemcmp(void) {
     const Byte left[] = { 3, 0x80, 0 };
     const Byte right[] = { 3, 0x7f, 255 };
 

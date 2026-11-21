@@ -9,8 +9,8 @@ enum {
 };
 
 int Main(void) {
-    static const Char message[] = "mini_libc";
-    Char buffer[sizeof(message) - 1];
+    static const char message[] = "mini_libc";
+    char buffer[sizeof(message) - 1];
 
     I32 output = SysCreat("created", 0600);
     if (output < 0 || SysWrite(output, message, sizeof(buffer)) != sizeof(buffer)) {

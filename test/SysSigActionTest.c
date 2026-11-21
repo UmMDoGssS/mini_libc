@@ -8,17 +8,17 @@ static const SigSet SignalBit = (U64) 1 << (Sig__Usr1 - 1);
 static const SigSet HandlerMask = (U64) 1 << (Sig__Usr2 - 1);
 
 static volatile I32 handled_signal;
-static volatile Bool handler_mask_ok;
-static volatile Bool info_args_ok;
+static volatile bool handler_mask_ok;
+static volatile bool info_args_ok;
 
-static Void HandleSignal(I32 sig) {
+static void HandleSignal(I32 sig) {
     SigSet mask;
     handler_mask_ok = SysProcMask(SigMaskHow__SetMask, nullptr, &mask) == 0 &&
                       mask == (ThreadMask | SignalBit | HandlerMask);
     handled_signal = sig;
 }
 
-static Void HandleSignalWithInfo(I32 sig, Any *info, Any *context) {
+static void HandleSignalWithInfo(I32 sig, Any *info, Any *context) {
     info_args_ok = info != nullptr && context != nullptr;
     handled_signal = sig;
 }

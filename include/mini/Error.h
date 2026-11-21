@@ -7,7 +7,7 @@
 #define Mini__PanicLocation_ "Panic at " __FILE__ ":" Mini__StringifyMacro(__LINE__) "\n"
 
 [[noreturn]]
-Mini__Void Mini__Panic_(const Mini__Char *location, Mini__USize length);
+void Mini__Panic_(const char *location, Mini__USize length);
 
 #define Mini__Panic() Mini__Panic_(Mini__PanicLocation_, sizeof(Mini__PanicLocation_) - 1)
 
@@ -26,15 +26,15 @@ Mini__Void Mini__Panic_(const Mini__Char *location, Mini__USize length);
         (E, Err, err)                                                                  \
     )                                                                                  \
                                                                                        \
-    /* IsOk(self) -> Bool */                                                           \
-    static inline Mini__Bool Mini__ConcatMacro(Mini__ResultMethods(T, E), __IsOk_)(    \
+    /* IsOk(self) -> bool */                                                           \
+    static inline bool Mini__ConcatMacro(Mini__ResultMethods(T, E), __IsOk_)(          \
         Mini__ResultType(T, E) *self                                                   \
     ) {                                                                                \
         return self->tag_ == Mini__ConcatMacro(Mini__ResultType(T, E), __Ok_);         \
     }                                                                                  \
                                                                                        \
-    /* IsErr(self) -> Bool */                                                          \
-    static inline Mini__Bool Mini__ConcatMacro(Mini__ResultMethods(T, E), __IsErr_)(   \
+    /* IsErr(self) -> bool */                                                          \
+    static inline bool Mini__ConcatMacro(Mini__ResultMethods(T, E), __IsErr_)(         \
         Mini__ResultType(T, E) *self                                                   \
     ) {                                                                                \
         return self->tag_ == Mini__ConcatMacro(Mini__ResultType(T, E), __Err_);        \
@@ -65,9 +65,9 @@ Mini__Void Mini__Panic_(const Mini__Char *location, Mini__USize length);
                                                                                        \
     [[maybe_unused]] static const struct {                                             \
         [[nodiscard, gnu::nonnull(1)]]                                                 \
-        Mini__Bool (*IsOk)(Mini__ResultType(T, E) *self);                              \
+        bool (*IsOk)(Mini__ResultType(T, E) *self);                                    \
         [[nodiscard, gnu::nonnull(1)]]                                                 \
-        Mini__Bool (*IsErr)(Mini__ResultType(T, E) *self);                             \
+        bool (*IsErr)(Mini__ResultType(T, E) *self);                                   \
         [[nodiscard, gnu::nonnull(1)]]                                                 \
         T (*Unwrap)(Mini__ResultType(T, E) *self);                                     \
         [[nodiscard, gnu::nonnull(1)]]                                                 \

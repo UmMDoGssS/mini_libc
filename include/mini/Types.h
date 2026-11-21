@@ -25,9 +25,6 @@ typedef double Mini__F64;
 static_assert(sizeof(Mini__F32) == 4, "Invalid F32");
 static_assert(sizeof(Mini__F64) == 8, "Invalid F64");
 
-typedef char Mini__Char;
-typedef bool Mini__Bool;
-typedef void Mini__Void;
 typedef void Mini__Any; // Pointer must be kept explicit (Mini__Any*)
 typedef unsigned char Mini__Byte;
 

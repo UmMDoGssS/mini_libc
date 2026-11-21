@@ -73,13 +73,13 @@ typedef enum Mini__SigActionFlag : Mini__U32 {
 } Mini__SigActionFlag;
 
 typedef union Mini__SigHandler {
-    Mini__Void (*simple)(Mini__I32 sig);
+    void (*simple)(Mini__I32 sig);
     // The kernel's info and context pointers are borrowed for the handler call.
-    Mini__Void (*with_info)(Mini__I32 sig, Mini__Any *info, Mini__Any *context);
+    void (*with_info)(Mini__I32 sig, Mini__Any *info, Mini__Any *context);
 } Mini__SigHandler;
 
-#define Mini__SigHandler__Default ((Mini__Void (*)(Mini__I32)) 0)
-#define Mini__SigHandler__Ignore  ((Mini__Void (*)(Mini__I32)) 1)
+#define Mini__SigHandler__Default ((void (*)(Mini__I32)) 0)
+#define Mini__SigHandler__Ignore  ((void (*)(Mini__I32)) 1)
 
 typedef struct Mini__SigAction {
     // Use with_info with Mini__SigActionFlag__SigInfo, and simple otherwise.
@@ -114,19 +114,19 @@ Mini__I32 Mini__SysProcMask(
 
 // Kernel signal-restorer entry point. A normal C call has no signal frame.
 [[noreturn]]
-Mini__Void Mini__SysSigReturn(void);
+void Mini__SysSigReturn(void);
 
 extern const Mini__I32 Mini__OkExitCode;
 extern const Mini__I32 Mini__ErrExitCode;
 
 [[noreturn]]
-Mini__Void Mini__SysExit(Mini__I32 status);
+void Mini__SysExit(Mini__I32 status);
 
 [[nodiscard]]
 Mini__I32 Mini__SysRaise(Mini__I32 sig);
 
 [[noreturn]]
-Mini__Void Mini__SysAbort(void);
+void Mini__SysAbort(void);
 
 [[nodiscard]]
 Mini__I64 Mini__SysRead(
@@ -163,7 +163,7 @@ typedef enum {
 
 [[nodiscard]]
 Mini__I32 Mini__SysOpen(
-    const Mini__Char *path,
+    const char *path,
     Mini__I32 flags,
     Mini__U32 mode
 );
@@ -173,14 +173,14 @@ extern const Mini__I32 Mini__AtFdcwd;
 [[nodiscard]]
 Mini__I32 Mini__SysOpenat(
     Mini__I32 dirfd,
-    const Mini__Char *path,
+    const char *path,
     Mini__I32 flags,
     Mini__U32 mode
 );
 
 [[nodiscard]]
 Mini__I32 Mini__SysCreat(
-    const Mini__Char *path,
+    const char *path,
     Mini__U32 mode
 );
 

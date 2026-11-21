@@ -4,7 +4,7 @@
 
 enum { CoreLimit = 4, WaitSignalMask = 0x7f };
 
-static Void HandleAbort(I32 sig) {
+static void HandleAbort(I32 sig) {
     if (sig != Sig__Abrt) {
         SysExit(2);
     }

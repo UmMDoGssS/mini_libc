@@ -22,9 +22,6 @@
 #define F32 Mini__F32
 #define F64 Mini__F64
 
-#define Char Mini__Char
-#define Bool Mini__Bool
-#define Void Mini__Void
 #define Any Mini__Any
 #define Byte Mini__Byte
 

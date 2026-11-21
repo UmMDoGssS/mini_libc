@@ -8,7 +8,7 @@ enum { RestorerFlag = 0x04000000 };
 typedef struct KernelSigAction {
     Mini__SigHandler handler;
     Mini__U64 flags;
-    Mini__Void (*restorer)(void);
+    void (*restorer)(void);
     Mini__SigSet mask;
 } KernelSigAction;
 

@@ -4,7 +4,7 @@
 const I64 Stdout = 1;
 
 int Main(void) {
-    static const Char message[] = "Hello, mini_libc!\n";
+    static const char message[] = "Hello, mini_libc!\n";
     const I64 length = sizeof(message) - 1;
     I64 written = Syscall6(
         SyscallNumber__Write,

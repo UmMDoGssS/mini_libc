@@ -55,7 +55,7 @@ I32 SysProcMask(I32 how, const SigSet *set, SigSet *old_set) {
 }
 
 [[gnu::naked]]
-Void SysSigReturn(void) {
+void SysSigReturn(void) {
     // The handler's ret leaves the stack pointer just past the signal frame's return address.
     __asm__ volatile (
         "movq %0, %%rax\n\t"
@@ -69,7 +69,7 @@ Void SysSigReturn(void) {
 const I32 OkExitCode = 0;
 const I32 ErrExitCode = 1;
 
-Void SysExit(I32 status) {
+void SysExit(I32 status) {
     Syscall6(SyscallNumber__ExitGroup, status, 0, 0, 0, 0, 0);
     __builtin_trap();
 }
@@ -78,8 +78,8 @@ I32 SysRaise(I32 sig) {
     return SysThreadKill(SysGetProcId(), SysGetThreadId(), sig);
 }
 
-Void SysAbort(void) {
-    static _Atomic Bool abort_started;
+void SysAbort(void) {
+    static _Atomic bool abort_started;
     static const SigAction sig_action = {
         .handler.simple = SigHandler__Default,
         .flags = 0,
@@ -89,13 +89,13 @@ Void SysAbort(void) {
 
     // Only the first caller attempts to run the installed handler.
     if (!__c11_atomic_exchange(&abort_started, true, __ATOMIC_RELAXED)) {
-        (Void) SysProcMask(SigMaskHow__Unblock, &set, nullptr);
-        (Void) SysRaise(Sig__Abrt);
+        (void) SysProcMask(SigMaskHow__Unblock, &set, nullptr);
+        (void) SysRaise(Sig__Abrt);
     }
 
-    (Void) SysSigAction(Sig__Abrt, &sig_action, nullptr);
-    (Void) SysProcMask(SigMaskHow__Unblock, &set, nullptr);
-    (Void) SysRaise(Sig__Abrt);
+    (void) SysSigAction(Sig__Abrt, &sig_action, nullptr);
+    (void) SysProcMask(SigMaskHow__Unblock, &set, nullptr);
+    (void) SysRaise(Sig__Abrt);
     SysExit(128 + Sig__Abrt);
 }
 
@@ -111,17 +111,17 @@ I64 SysLseek(I32 fd, I64 offset, I32 whence) {
     return Syscall6(SyscallNumber__Lseek, fd, offset, whence, 0, 0, 0);
 }
 
-I32 SysOpen(const Char *path, I32 flags, U32 mode) {
+I32 SysOpen(const char *path, I32 flags, U32 mode) {
     return SysOpenat(AtFdcwd, path, flags, mode);
 }
 
 const I32 AtFdcwd = -100;
 
-I32 SysOpenat(I32 dirfd, const Char *path, I32 flags, U32 mode) {
+I32 SysOpenat(I32 dirfd, const char *path, I32 flags, U32 mode) {
     return (I32) Syscall6(SyscallNumber__Openat, dirfd, (I64) path, flags, mode, 0, 0);
 }
 
-I32 SysCreat(const Char *path, U32 mode) {
+I32 SysCreat(const char *path, U32 mode) {
     return SysOpen(path, OpenFlag__WrOnly | OpenFlag__Creat | OpenFlag__Trunc, mode);
 }
 
