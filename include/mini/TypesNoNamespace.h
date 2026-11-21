@@ -28,6 +28,4 @@
 #define Any Mini__Any
 #define Byte Mini__Byte
 
-#define DeclareSumType Mini__DeclareSumType
-
 #endif // Mini__TypesNoNamespaceH_

@@ -5,4 +5,6 @@
 #define StringifyMacro(X) Mini__Stringify_(X)
 #define UnwrapMacro(...) __VA_ARGS__
 
+#define DeclareSumType Mini__DeclareSumType
+
 #endif // Mini__MacrosNoNamespaceH_
