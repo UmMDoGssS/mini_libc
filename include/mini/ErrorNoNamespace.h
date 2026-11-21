@@ -5,7 +5,8 @@
 
 #define Panic Mini__Panic
 
-#define ResultType       Mini__ResultType
-#define DefineResultType Mini__DefineResultType
+#define Result       Mini__Result
+#define ResultMth    Mini__ResultMth
+#define DefineResult Mini__DefineResult
 
 #endif // Mini__ErrorNoNamespaceH_
