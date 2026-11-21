@@ -26,8 +26,7 @@ int Main(void) {
 
     for (Mini__USize index = 0; index < sizeof(fallback.bytes); ++index) {
         Mini__Byte expected = (Mini__Byte) index;
-        if (unwrapped.bytes[index] != expected ||
-            ok_or.bytes[index] != expected ||
+        if (unwrapped.bytes[index] != expected || ok_or.bytes[index] != expected ||
             err_or.bytes[index] != (Mini__Byte) (index + 1)) {
             return 2;
         }

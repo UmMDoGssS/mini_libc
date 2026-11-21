@@ -3,7 +3,7 @@
 #include "platform/linux/x86_64/Syscall.h"
 
 enum {
-    NoSuchProcess = 3,
+    NoSuchProcess   = 3,
     InvalidArgument = 22,
 };
 

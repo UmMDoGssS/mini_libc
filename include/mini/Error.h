@@ -19,64 +19,57 @@ void Mini__Panic_(const char *location, Mini__USize length);
     Mini__ConcatMacro(Mini__ResultMethod_, Mini__ConcatMacro(T, Mini__ConcatMacro(_, E)))
 
 // A failing Unwrap reports the location of this macro's expansion.
-#define Mini__DefineResultType(T, E)                                                   \
-    Mini__DeclareSumType(                                                              \
-        Mini__ResultType(T, E),                                                        \
-        (T, Ok, ok),                                                                   \
-        (E, Err, err)                                                                  \
-    )                                                                                  \
-                                                                                       \
-    /* IsOk(self) -> bool */                                                           \
-    static inline bool Mini__ConcatMacro(Mini__ResultMethods(T, E), __IsOk_)(          \
-        Mini__ResultType(T, E) *self                                                   \
-    ) {                                                                                \
-        return self->tag_ == Mini__ConcatMacro(Mini__ResultType(T, E), __Ok_);         \
-    }                                                                                  \
-                                                                                       \
-    /* IsErr(self) -> bool */                                                          \
-    static inline bool Mini__ConcatMacro(Mini__ResultMethods(T, E), __IsErr_)(         \
-        Mini__ResultType(T, E) *self                                                   \
-    ) {                                                                                \
-        return self->tag_ == Mini__ConcatMacro(Mini__ResultType(T, E), __Err_);        \
-    }                                                                                  \
-                                                                                       \
-    /* Unwrap(self) -> T */                                                            \
-    static inline T Mini__ConcatMacro(Mini__ResultMethods(T, E), __Unwrap_)(           \
-        Mini__ResultType(T, E) *self                                                   \
-    ) {                                                                                \
-        if (Mini__ConcatMacro(Mini__ResultMethods(T, E), __IsErr_)(self)) {            \
-            Mini__Panic();                                                             \
-        }                                                                              \
-                                                                                       \
-        return self->ok_;                                                              \
-    }                                                                                  \
-                                                                                       \
-    /* UnwrapOr(self, T val) -> T */                                                   \
-    static inline T Mini__ConcatMacro(Mini__ResultMethods(T, E), __UnwrapOr_)(         \
-        Mini__ResultType(T, E) *self,                                                  \
-        T val                                                                          \
-    ) {                                                                                \
-        if (Mini__ConcatMacro(Mini__ResultMethods(T, E), __IsErr_)(self)) {            \
-            return val;                                                                \
-        }                                                                              \
-                                                                                       \
-        return self->ok_;                                                              \
-    }                                                                                  \
-                                                                                       \
-    [[maybe_unused]] static const struct {                                             \
-        [[nodiscard, gnu::nonnull(1)]]                                                 \
-        bool (*IsOk)(Mini__ResultType(T, E) *self);                                    \
-        [[nodiscard, gnu::nonnull(1)]]                                                 \
-        bool (*IsErr)(Mini__ResultType(T, E) *self);                                   \
-        [[nodiscard, gnu::nonnull(1)]]                                                 \
-        T (*Unwrap)(Mini__ResultType(T, E) *self);                                     \
-        [[nodiscard, gnu::nonnull(1)]]                                                 \
-        T (*UnwrapOr)(Mini__ResultType(T, E) *self, T val);                            \
-    } Mini__ResultMethods(T, E) = {                                                    \
-        .IsOk     = Mini__ConcatMacro(Mini__ResultMethods(T, E), __IsOk_),             \
-        .IsErr    = Mini__ConcatMacro(Mini__ResultMethods(T, E), __IsErr_),            \
-        .Unwrap   = Mini__ConcatMacro(Mini__ResultMethods(T, E), __Unwrap_),           \
-        .UnwrapOr = Mini__ConcatMacro(Mini__ResultMethods(T, E), __UnwrapOr_),         \
+#define Mini__DefineResultType(T, E)                                                 \
+    Mini__DeclareSumType(Mini__ResultType(T, E), (T, Ok, ok), (E, Err, err))         \
+                                                                                     \
+    /* IsOk(self) -> bool */                                                         \
+    static inline bool Mini__ConcatMacro(Mini__ResultMethods(T, E), __IsOk_)(        \
+        Mini__ResultType(T, E) * self                                                \
+    ) {                                                                              \
+        return self->tag_ == Mini__ConcatMacro(Mini__ResultType(T, E), __Ok_);       \
+    }                                                                                \
+                                                                                     \
+    /* IsErr(self) -> bool */                                                        \
+    static inline bool Mini__ConcatMacro(Mini__ResultMethods(T, E), __IsErr_)(       \
+        Mini__ResultType(T, E) * self                                                \
+    ) {                                                                              \
+        return self->tag_ == Mini__ConcatMacro(Mini__ResultType(T, E), __Err_);      \
+    }                                                                                \
+                                                                                     \
+    /* Unwrap(self) -> T */                                                          \
+    static inline T Mini__ConcatMacro(Mini__ResultMethods(T, E), __Unwrap_)(         \
+        Mini__ResultType(T, E) * self                                                \
+    ) {                                                                              \
+        if (Mini__ConcatMacro(Mini__ResultMethods(T, E), __IsErr_)(self)) {          \
+            Mini__Panic();                                                           \
+        }                                                                            \
+                                                                                     \
+        return self->ok_;                                                            \
+    }                                                                                \
+                                                                                     \
+    /* UnwrapOr(self, T val) -> T */                                                 \
+    static inline T Mini__ConcatMacro(Mini__ResultMethods(T, E), __UnwrapOr_)(       \
+        Mini__ResultType(T, E) * self,                                               \
+        T val                                                                        \
+    ) {                                                                              \
+        if (Mini__ConcatMacro(Mini__ResultMethods(T, E), __IsErr_)(self)) {          \
+            return val;                                                              \
+        }                                                                            \
+                                                                                     \
+        return self->ok_;                                                            \
+    }                                                                                \
+                                                                                     \
+    [[maybe_unused]] static const struct {                                           \
+        [[nodiscard, gnu::nonnull(1)]] bool (*IsOk)(Mini__ResultType(T, E) * self);  \
+        [[nodiscard, gnu::nonnull(1)]] bool (*IsErr)(Mini__ResultType(T, E) * self); \
+        [[nodiscard, gnu::nonnull(1)]] T (*Unwrap)(Mini__ResultType(T, E) * self);   \
+        [[nodiscard, gnu::nonnull(1)]]                                               \
+        T (*UnwrapOr)(Mini__ResultType(T, E) * self, T val);                         \
+    } Mini__ResultMethods(T, E) = {                                                  \
+        .IsOk = Mini__ConcatMacro(Mini__ResultMethods(T, E), __IsOk_),               \
+        .IsErr = Mini__ConcatMacro(Mini__ResultMethods(T, E), __IsErr_),             \
+        .Unwrap = Mini__ConcatMacro(Mini__ResultMethods(T, E), __Unwrap_),           \
+        .UnwrapOr = Mini__ConcatMacro(Mini__ResultMethods(T, E), __UnwrapOr_),       \
     };
 
 #endif // Mini__ErrorH_

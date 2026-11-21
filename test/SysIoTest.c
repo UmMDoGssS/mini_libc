@@ -2,10 +2,10 @@
 #include "mini/TypesNoNamespace.h"
 
 enum {
-    NoEntry = 2,
+    NoEntry           = 2,
     BadFileDescriptor = 9,
-    FileExists = 17,
-    InvalidArgument = 22,
+    FileExists        = 17,
+    InvalidArgument   = 22,
 };
 
 int Main(void) {
@@ -32,12 +32,12 @@ int Main(void) {
 
     const I64 length = sizeof(buffer);
     if (SysLseek(input, -2, SeekWhence__End) != length - 2 ||
-        SysLseek(input, 1, SeekWhence__Cur) != length - 1 ||
-        SysRead(input, buffer, 1) != 1 || buffer[0] != message[sizeof(buffer) - 1]) {
+        SysLseek(input, 1, SeekWhence__Cur) != length - 1 || SysRead(input, buffer, 1) != 1 ||
+        buffer[0] != message[sizeof(buffer) - 1]) {
         return 5;
     }
 
-    const I64 large_offset = (I64)1 << 33;
+    const I64 large_offset = (I64) 1 << 33;
     if (SysLseek(input, large_offset, SeekWhence__Set) != large_offset ||
         SysLseek(input, 0, SeekWhence__Cur) != large_offset ||
         SysLseek(input, 0, SeekWhence__End) != length) {
@@ -69,10 +69,8 @@ int Main(void) {
         return 11;
     }
 
-    if (SysClose(output) != 0 ||
-        SysWrite(output, message, sizeof(buffer)) != -BadFileDescriptor ||
-        SysClose(output) != -BadFileDescriptor ||
-        SysClose(-1) != -BadFileDescriptor) {
+    if (SysClose(output) != 0 || SysWrite(output, message, sizeof(buffer)) != -BadFileDescriptor ||
+        SysClose(output) != -BadFileDescriptor || SysClose(-1) != -BadFileDescriptor) {
         return 12;
     }
 

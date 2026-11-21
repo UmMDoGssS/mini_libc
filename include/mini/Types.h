@@ -3,6 +3,7 @@
 
 #include "Macros.h"
 
+// clang-format off: Keep the type aliases aligned.
 typedef __INT8_TYPE__   Mini__I8;
 typedef __INT16_TYPE__  Mini__I16;
 typedef __INT32_TYPE__  Mini__I32;
@@ -21,6 +22,7 @@ typedef __INTPTR_TYPE__  Mini__IPtr;
 
 typedef float  Mini__F32;
 typedef double Mini__F64;
+// clang-format on
 
 static_assert(sizeof(Mini__F32) == 4, "Invalid F32");
 static_assert(sizeof(Mini__F64) == 8, "Invalid F64");

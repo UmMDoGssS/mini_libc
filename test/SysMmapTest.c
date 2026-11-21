@@ -3,10 +3,10 @@
 #include "platform/linux/x86_64/Syscall.h"
 
 enum {
-    PageSize = 4096,
+    PageSize          = 4096,
     BadFileDescriptor = 9,
-    OutOfMemory = 12,
-    InvalidArgument = 22,
+    OutOfMemory       = 12,
+    InvalidArgument   = 22,
 };
 
 int Main(void) {
@@ -17,7 +17,7 @@ int Main(void) {
         return 1;
     }
 
-    U8 *memory = (U8 *)address;
+    U8 *memory = (U8 *) address;
     volatile U8 *bytes = memory;
     if (bytes[0] != 0 || bytes[PageSize - 1] != 0) {
         return 2;
@@ -27,14 +27,14 @@ int Main(void) {
     if (bytes[0] != 42 || bytes[PageSize - 1] != 73) {
         return 3;
     }
-    if (SysMunmap(memory + 1, PageSize) != -InvalidArgument ||
-        SysMunmap(memory, PageSize) != 0) {
+    if (SysMunmap(memory + 1, PageSize) != -InvalidArgument || SysMunmap(memory, PageSize) != 0) {
         return 4;
     }
 
     // mincore reports ENOMEM when the address has no mapping.
     U8 residency;
-    if (Syscall6(SyscallNumber__Mincore, address, PageSize, (IPtr)&residency, 0, 0, 0) != -OutOfMemory) {
+    if (Syscall6(SyscallNumber__Mincore, address, PageSize, (IPtr) &residency, 0, 0, 0) !=
+        -OutOfMemory) {
         return 5;
     }
 
@@ -46,14 +46,15 @@ int Main(void) {
     }
 
     address = SysMmap(nullptr, PageSize, MmapProt__Read, MmapFlag__Shared, fd, PageSize);
-    if (address < 0 || *(const volatile U8 *)address != marker) {
+    if (address < 0 || *(const volatile U8 *) address != marker) {
         return 7;
     }
-    if (SysMunmap((Any *)address, PageSize) != 0) {
+    if (SysMunmap((Any *) address, PageSize) != 0) {
         return 8;
     }
     if (SysMmap(nullptr, 0, protection, anonymous_flags, -1, 0) != -InvalidArgument ||
-        SysMmap(nullptr, PageSize, MmapProt__Read, MmapFlag__Private, -1, 0) != -BadFileDescriptor) {
+        SysMmap(nullptr, PageSize, MmapProt__Read, MmapFlag__Private, -1, 0) !=
+            -BadFileDescriptor) {
         return 9;
     }
 

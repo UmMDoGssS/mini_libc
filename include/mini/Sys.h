@@ -106,11 +106,7 @@ typedef enum Mini__SigMaskHow {
 // Changes the calling thread's mask. A null set queries it and ignores how.
 // A null old_set skips the previous mask. Returns zero or a negative Linux errno.
 [[nodiscard]]
-Mini__I32 Mini__SysProcMask(
-    Mini__I32 how,
-    const Mini__SigSet *set,
-    Mini__SigSet *old_set
-);
+Mini__I32 Mini__SysProcMask(Mini__I32 how, const Mini__SigSet *set, Mini__SigSet *old_set);
 
 // Kernel signal-restorer entry point. A normal C call has no signal frame.
 [[noreturn]]
@@ -129,18 +125,10 @@ Mini__I32 Mini__SysRaise(Mini__I32 sig);
 void Mini__SysAbort(void);
 
 [[nodiscard]]
-Mini__I64 Mini__SysRead(
-    Mini__I32 fd,
-    Mini__Any *buf,
-    Mini__USize count
-);
+Mini__I64 Mini__SysRead(Mini__I32 fd, Mini__Any *buf, Mini__USize count);
 
 [[nodiscard]]
-Mini__I64 Mini__SysWrite(
-    Mini__I32 fd,
-    const Mini__Any *buf,
-    Mini__USize count
-);
+Mini__I64 Mini__SysWrite(Mini__I32 fd, const Mini__Any *buf, Mini__USize count);
 
 typedef enum {
     Mini__SeekWhence__Set = 0,
@@ -152,37 +140,25 @@ typedef enum {
 Mini__I64 Mini__SysLseek(Mini__I32 fd, Mini__I64 offset, Mini__I32 whence);
 
 typedef enum {
-    Mini__OpenFlag__RdOnly  = 0,
-    Mini__OpenFlag__WrOnly  = 1,
-    Mini__OpenFlag__RdWr    = 2,
-    Mini__OpenFlag__Creat   = 0100,
-    Mini__OpenFlag__Excl    = 0200,
-    Mini__OpenFlag__Trunc   = 01000,
-    Mini__OpenFlag__Append  = 02000,
+    Mini__OpenFlag__RdOnly = 0,
+    Mini__OpenFlag__WrOnly = 1,
+    Mini__OpenFlag__RdWr   = 2,
+    Mini__OpenFlag__Creat  = 0100,
+    Mini__OpenFlag__Excl   = 0200,
+    Mini__OpenFlag__Trunc  = 01000,
+    Mini__OpenFlag__Append = 02000,
 } Mini__OpenFlag;
 
 [[nodiscard]]
-Mini__I32 Mini__SysOpen(
-    const char *path,
-    Mini__I32 flags,
-    Mini__U32 mode
-);
+Mini__I32 Mini__SysOpen(const char *path, Mini__I32 flags, Mini__U32 mode);
 
 extern const Mini__I32 Mini__AtFdcwd;
 
 [[nodiscard]]
-Mini__I32 Mini__SysOpenat(
-    Mini__I32 dirfd,
-    const char *path,
-    Mini__I32 flags,
-    Mini__U32 mode
-);
+Mini__I32 Mini__SysOpenat(Mini__I32 dirfd, const char *path, Mini__I32 flags, Mini__U32 mode);
 
 [[nodiscard]]
-Mini__I32 Mini__SysCreat(
-    const char *path,
-    Mini__U32 mode
-);
+Mini__I32 Mini__SysCreat(const char *path, Mini__U32 mode);
 
 [[nodiscard]]
 Mini__I32 Mini__SysClose(Mini__I32 fd);

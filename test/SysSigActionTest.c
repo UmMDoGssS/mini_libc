@@ -14,7 +14,7 @@ static volatile bool info_args_ok;
 static void HandleSignal(I32 sig) {
     SigSet mask;
     handler_mask_ok = SysProcMask(SigMaskHow__SetMask, nullptr, &mask) == 0 &&
-                      mask == (ThreadMask | SignalBit | HandlerMask);
+        mask == (ThreadMask | SignalBit | HandlerMask);
     handled_signal = sig;
 }
 
@@ -28,8 +28,7 @@ int Main(void) {
     SigSet old_mask;
     if (SysProcMask(-1, nullptr, &original_mask) != 0 ||
         SysProcMask(SigMaskHow__SetMask, &ThreadMask, &old_mask) != 0 ||
-        old_mask != original_mask ||
-        SysProcMask(-1, &SignalBit, nullptr) != -InvalidArgument) {
+        old_mask != original_mask || SysProcMask(-1, &SignalBit, nullptr) != -InvalidArgument) {
         return 1;
     }
 
@@ -45,8 +44,8 @@ int Main(void) {
     }
     SigAction installed;
     if (SysSigAction(Sig__Usr1, nullptr, &installed) != 0 ||
-        installed.handler.simple != HandleSignal ||
-        installed.flags != action.flags || installed.mask != HandlerMask) {
+        installed.handler.simple != HandleSignal || installed.flags != action.flags ||
+        installed.mask != HandlerMask) {
         return 3;
     }
 
@@ -69,9 +68,8 @@ int Main(void) {
         .mask = 0,
     };
     if (SysSigAction(Sig__Usr1, &replacement, &replacement) != 0 ||
-        replacement.handler.simple != HandleSignal ||
-        replacement.flags != action.flags || replacement.mask != HandlerMask ||
-        SysSigAction(Sig__Usr1, nullptr, &installed) != 0 ||
+        replacement.handler.simple != HandleSignal || replacement.flags != action.flags ||
+        replacement.mask != HandlerMask || SysSigAction(Sig__Usr1, nullptr, &installed) != 0 ||
         installed.handler.with_info != HandleSignalWithInfo ||
         installed.flags != SigActionFlag__SigInfo || installed.mask != 0) {
         return 7;
@@ -83,8 +81,8 @@ int Main(void) {
 
     const SigAction ignore = { .handler.simple = SigHandler__Ignore };
     handled_signal = 0;
-    if (SysSigAction(Sig__Usr1, &ignore, nullptr) != 0 ||
-        SysKill(pid, Sig__Usr1) != 0 || handled_signal != 0) {
+    if (SysSigAction(Sig__Usr1, &ignore, nullptr) != 0 || SysKill(pid, Sig__Usr1) != 0 ||
+        handled_signal != 0) {
         return 9;
     }
 

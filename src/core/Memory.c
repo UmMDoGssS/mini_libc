@@ -2,11 +2,7 @@
 
 // Memory entry points for the freestanding Clang runtime.
 
-Any *memcpy(
-    Any *restrict destination,
-    const Any *restrict source,
-    USize length
-) {
+Any *memcpy(Any *restrict destination, const Any *restrict source, USize length) {
     Byte *destination_bytes = destination;
     const Byte *source_bytes = source;
 

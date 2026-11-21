@@ -1,0 +1,40 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+ContinuationIndentWidth: 4
+UseTab: Never
+ColumnLimit: 100
+BreakBeforeBraces: Attach
+PointerAlignment: Right
+SpaceAfterCStyleCast: true
+AllowShortFunctionsOnASingleLine: None
+BreakAfterAttributes: Always
+Cpp11BracedListStyle: Block
+
+AlignConsecutiveMacros: Consecutive
+AlignConsecutiveAssignments:
+  Enabled: false
+  EnumAssignments: true
+AlignAfterOpenBracket: false
+AlignEscapedNewlines: Left
+AlignOperands: DontAlign
+BreakAfterOpenBracketFunction: true
+BreakBeforeCloseBracketFunction: true
+PackArguments:
+  BinPack: OnePerLine
+PackParameters:
+  BinPack: OnePerLine
+AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+PenaltyReturnTypeOnItsOwnLine: 2000
+
+SortIncludes:
+  Enabled: false
+ReflowComments: Never
+BreakStringLiterals: false
+AlwaysBreakBeforeMultilineStrings: true
+SkipMacroDefinitionBody: false
+StatementMacros:
+  - Mini__DefineResultType
+  - DefineResultType
+  - Mini__DeclareSumType
+  - DeclareSumType

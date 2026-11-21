@@ -78,9 +78,9 @@
 #define SigMaskHow__SetMask Mini__SigMaskHow__SetMask
 #define SigMaskHow          Mini__SigMaskHow
 
-#define SysSigAction  Mini__SysSigAction
-#define SysProcMask   Mini__SysProcMask
-#define SysSigReturn  Mini__SysSigReturn
+#define SysSigAction Mini__SysSigAction
+#define SysProcMask  Mini__SysProcMask
+#define SysSigReturn Mini__SysSigReturn
 
 #define SysRead Mini__SysRead
 

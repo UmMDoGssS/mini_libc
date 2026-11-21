@@ -3,12 +3,12 @@
 
 #include "Types.h"
 
-#define I8 Mini__I8
+#define I8  Mini__I8
 #define I16 Mini__I16
 #define I32 Mini__I32
 #define I64 Mini__I64
 
-#define U8 Mini__U8
+#define U8  Mini__U8
 #define U16 Mini__U16
 #define U32 Mini__U32
 #define U64 Mini__U64
@@ -22,7 +22,7 @@
 #define F32 Mini__F32
 #define F64 Mini__F64
 
-#define Any Mini__Any
+#define Any  Mini__Any
 #define Byte Mini__Byte
 
 #endif // Mini__TypesNoNamespaceH_

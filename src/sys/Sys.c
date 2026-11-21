@@ -1,4 +1,3 @@
-#include "mini/Sys.h"
 #include "mini/TypesNoNamespace.h"
 #include "mini/SysNoNamespace.h"
 #include "platform/linux/x86_64/Signal.h"
@@ -51,12 +50,24 @@ I32 SysSigAction(I32 sig, const SigAction *action, SigAction *old_action) {
 }
 
 I32 SysProcMask(I32 how, const SigSet *set, SigSet *old_set) {
-    return (I32) Syscall6(SyscallNumber__RtSigprocmask, how, (IPtr) set, (IPtr) old_set, sizeof(SigSet), 0, 0);
+    // clang-format off: Keep the cast together.
+    return (I32) Syscall6(
+        SyscallNumber__RtSigprocmask,
+        how,
+        (IPtr) set,
+        (IPtr) old_set,
+        sizeof(SigSet),
+        0,
+        0
+    );
+    // clang-format on
 }
 
 [[gnu::naked]]
 void SysSigReturn(void) {
     // The handler's ret leaves the stack pointer just past the signal frame's return address.
+
+    // clang-format off: Keep the syscall formatting
     __asm__ volatile (
         "movq %0, %%rax\n\t"
         "syscall\n\t"
@@ -64,6 +75,7 @@ void SysSigReturn(void) {
         :
         : "i"(SyscallNumber__RtSigreturn)
     );
+    // clang-format on
 }
 
 const I32 OkExitCode = 0;

@@ -24,6 +24,12 @@ mini_libc is a learning project for understanding how a C runtime and library wo
 - Distinguish borrowed views from owned data and document lifetime and ownership where relevant.
 - Use `Option` for ordinary absence and `Result` for recoverable errors. Choose concrete layouts and signatures as each module takes shape.
 
+## Formatting
+
+- Use clang-format 23.1.6 with the root `.clang-format` for C sources and headers.
+- Aim for 80 columns and keep lines at or below 100 columns. Check widths during review, since clang-format can leave some lines over its configured limit.
+- From the repository root, format the tracked C files and headers with `git ls-files -z -- '*.c' '*.h' | xargs -0 clang-format -i`.
+
 ## Working with the maintainer
 
 Guide first. Explain tradeoffs and leave new core algorithms and API decisions to the maintainer unless delegated. Help with requested repetitive work, debugging, and code review. Measure performance before and after optimizations.
