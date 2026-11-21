@@ -13,7 +13,8 @@
 
 #define Mini__MangleTagName_(Name, Tag) \
     Mini__ConcatMacro(Name, \
-        Mini__ConcatMacro(Tag, _))))
+        Mini__ConcatMacro(__, \
+            Mini__ConcatMacro(Tag, _)))
 
 #define Mini__MangleVarName_(Var) Mini__ConcatMacro(Var, _)
 
