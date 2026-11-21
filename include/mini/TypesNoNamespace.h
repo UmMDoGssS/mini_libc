@@ -26,5 +26,8 @@
 #define Bool Mini__Bool
 #define Void Mini__Void
 #define Any Mini__Any
+#define Byte Mini__Byte
+
+#define DeclareSumType Mini__DeclareSumType
 
 #endif // Mini__IncludedTypesNoNamespaceH
