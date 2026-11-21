@@ -91,11 +91,11 @@ void Mini__Panic_(const char *location, Mini__USize length);
         [[nodiscard, gnu::nonnull(1)]]                                                             \
         T (*UnwrapOr)(Mini__Result(T, E) *self, T val);                                            \
     } Mini__ResultMth(T, E) = {                                                                    \
-        .MakeOk = Mini__ConcatMacro(Mini__ResultMth(T, E), __MakeOk_),                             \
-        .MakeErr = Mini__ConcatMacro(Mini__ResultMth(T, E), __MakeErr_),                           \
-        .IsOk = Mini__ConcatMacro(Mini__ResultMth(T, E), __IsOk_),                                 \
-        .IsErr = Mini__ConcatMacro(Mini__ResultMth(T, E), __IsErr_),                               \
-        .Unwrap = Mini__ConcatMacro(Mini__ResultMth(T, E), __Unwrap_),                             \
+        .MakeOk   = Mini__ConcatMacro(Mini__ResultMth(T, E), __MakeOk_),                           \
+        .MakeErr  = Mini__ConcatMacro(Mini__ResultMth(T, E), __MakeErr_),                          \
+        .IsOk     = Mini__ConcatMacro(Mini__ResultMth(T, E), __IsOk_),                             \
+        .IsErr    = Mini__ConcatMacro(Mini__ResultMth(T, E), __IsErr_),                            \
+        .Unwrap   = Mini__ConcatMacro(Mini__ResultMth(T, E), __Unwrap_),                           \
         .UnwrapOr = Mini__ConcatMacro(Mini__ResultMth(T, E), __UnwrapOr_),                         \
     }
 
