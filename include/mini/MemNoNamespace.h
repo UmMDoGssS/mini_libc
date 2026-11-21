@@ -1,5 +1,5 @@
 /** @file
- * @brief Short aliases for the byte operations and ordering in `Mem.h`.
+ * @brief Short aliases for the memory API in `Mem.h`.
  */
 
 #ifndef Mini__MemNoNamespaceH_
@@ -24,5 +24,21 @@
 #define MemFill Mini__MemFill
 /** @copydoc Mini__MemComp */
 #define MemComp Mini__MemComp
+
+/** @copydoc Mini__MemPtr */
+#define MemPtr Mini__MemPtr
+/** @copydoc Mini__MemAllocError */
+#define MemAllocError Mini__MemAllocError
+/** @copydoc Mini__MemAllocError__SizeOverflow */
+#define MemAllocError__SizeOverflow Mini__MemAllocError__SizeOverflow
+/** @copydoc Mini__MemAllocError__MapFailed */
+#define MemAllocError__MapFailed Mini__MemAllocError__MapFailed
+/** @copydoc Mini__MemAllocRes */
+#define MemAllocRes Mini__MemAllocRes
+
+/** @copydoc Mini__MemAlloc */
+#define MemAlloc Mini__MemAlloc
+/** @copydoc Mini__MemFree */
+#define MemFree Mini__MemFree
 
 #endif // Mini__MemNoNamespaceH_

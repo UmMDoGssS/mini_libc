@@ -1,13 +1,15 @@
 /** @file
- * @brief Byte operations on caller-provided memory.
+ * @brief Memory allocation and byte operations.
  *
- * Lengths count bytes. At zero length, pointers may be null and no memory is accessed.
+ * Lengths count bytes. Byte operations with a zero length accept null pointers and access no
+ * memory.
  */
 
 #ifndef Mini__MemH_
 #define Mini__MemH_
 
 #include "Types.h"
+#include "Error.h"
 
 /** @brief Ordering of two byte ranges. */
 typedef enum Mini__MemOrder {
@@ -54,5 +56,39 @@ void Mini__MemFill(Mini__Any *destination, Mini__Byte value, Mini__USize length)
  */
 [[nodiscard]]
 Mini__MemOrder Mini__MemComp(const Mini__Any *left, const Mini__Any *right, Mini__USize length);
+
+/** @brief Pointer to an allocation, or null for a successful zero-byte request. */
+typedef Mini__Any *Mini__MemPtr;
+
+/** @brief Reasons that Mini__MemAlloc can fail. */
+typedef enum Mini__MemAllocError {
+    Mini__MemAllocError__SizeOverflow, /**< The requested size plus allocator overhead overflows. */
+    Mini__MemAllocError__MapFailed,    /**< The OS could not map the requested memory. */
+} Mini__MemAllocError;
+
+Mini__DefineRes(Mini__MemPtr, Mini__MemAllocError);
+
+/** @brief Result of Mini__MemAlloc, holding a Mini__MemPtr or a Mini__MemAllocError. */
+typedef Mini__Res(Mini__MemPtr, Mini__MemAllocError) Mini__MemAllocRes;
+
+/**
+ * @brief Allocates writable memory with 16-byte alignment.
+ * @param length Number of bytes to allocate.
+ * @return An owned pointer on success or a Mini__MemAllocError on failure. A zero-byte request
+ *         succeeds with a null pointer and creates no allocation.
+ *
+ * The initial contents are unspecified. Release a non-null result with Mini__MemFree.
+ */
+[[nodiscard]]
+Mini__MemAllocRes Mini__MemAlloc(Mini__USize length);
+
+/**
+ * @brief Releases memory allocated by Mini__MemAlloc.
+ * @param pointer The original pointer to a live allocation, or null to do nothing.
+ *
+ * The pointer and any pointers into the allocation become invalid after release.
+ * If the OS fails to unmap the allocation, this function panics.
+ */
+void Mini__MemFree(Mini__Any *pointer);
 
 #endif // Mini__MemH_

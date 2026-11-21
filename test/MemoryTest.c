@@ -1,5 +1,7 @@
+#include "mini/ErrorNoNamespace.h"
 #include "mini/MemNoNamespace.h"
 #include "mini/TypesNoNamespace.h"
+#include "platform/linux/x86_64/Syscall.h"
 
 Any *memset(Any *destination, int value, USize length);
 Any *memmove(Any *destination, const Any *source, USize length);
@@ -100,6 +102,72 @@ static bool CheckEmptyRange(void) {
     return byte == 42 && MemComp(nullptr, nullptr, 0) == MemOrder__Equal;
 }
 
+static bool CheckZeroSizeAlloc(void) {
+    const MemAllocRes result = MemAlloc(0);
+    const MemPtr *pointer = ResMth(MemPtr, MemAllocError).GetOk(&result);
+
+    MemFree(nullptr);
+    return pointer != nullptr && *pointer == nullptr;
+}
+
+static bool CheckMemAllocErrors(void) {
+    const MemAllocRes overflow = MemAlloc(__SIZE_MAX__);
+    const MemAllocError *error = ResMth(MemPtr, MemAllocError).GetErr(&overflow);
+    if (error == nullptr || *error != MemAllocError__SizeOverflow) {
+        return false;
+    }
+
+    // This length fits in USize but exceeds the Linux x86-64 userspace address space.
+    const MemAllocRes map_failure = MemAlloc((USize) 1 << 60);
+    error = ResMth(MemPtr, MemAllocError).GetErr(&map_failure);
+    return error != nullptr && *error == MemAllocError__MapFailed;
+}
+
+enum { PageSize = 4096, AllocAlignment = 16, OutOfMemory = 12 };
+
+static bool IsUnmapped(UPtr address) {
+    const IPtr page = (IPtr) (address - address % PageSize);
+    U8 residency;
+    return Syscall6(SyscallNumber__Mincore, page, PageSize, (IPtr) &residency, 0, 0, 0) ==
+        -OutOfMemory;
+}
+
+static bool CheckMemAlloc(void) {
+    const USize length = PageSize + 1;
+    const MemAllocRes small = MemAlloc(1);
+    const MemAllocRes large = MemAlloc(length);
+    const MemPtr *small_pointer = ResMth(MemPtr, MemAllocError).GetOk(&small);
+    const MemPtr *large_pointer = ResMth(MemPtr, MemAllocError).GetOk(&large);
+    if (small_pointer == nullptr || *small_pointer == nullptr || large_pointer == nullptr ||
+        *large_pointer == nullptr) {
+        return false;
+    }
+
+    const UPtr small_address = (UPtr) *small_pointer;
+    const UPtr large_address = (UPtr) *large_pointer;
+    if (small_address % AllocAlignment != 0 || large_address % AllocAlignment != 0) {
+        return false;
+    }
+
+    volatile Byte *small_bytes = *small_pointer;
+    volatile Byte *large_bytes = *large_pointer;
+    small_bytes[0] = 17;
+    large_bytes[0] = 39;
+    large_bytes[length - 1] = 73;
+    if (large_bytes[0] != 39 || large_bytes[length - 1] != 73) {
+        return false;
+    }
+
+    MemFree(*large_pointer);
+    if (!IsUnmapped(large_address) || !IsUnmapped(large_address + length - 1) ||
+        small_bytes[0] != 17) {
+        return false;
+    }
+
+    MemFree(*small_pointer);
+    return IsUnmapped(small_address);
+}
+
 int Main(void) {
     if (!CheckMemset()) {
         return 1;
@@ -124,6 +192,15 @@ int Main(void) {
     }
     if (!CheckEmptyRange()) {
         return 8;
+    }
+    if (!CheckZeroSizeAlloc()) {
+        return 9;
+    }
+    if (!CheckMemAllocErrors()) {
+        return 10;
+    }
+    if (!CheckMemAlloc()) {
+        return 11;
     }
 
     return 0;
