@@ -32,10 +32,8 @@ typedef void Mini__Any; // Pointer must be kept explicit (Mini__Any*)
 typedef unsigned char Mini__Byte;
 
 #define Mini__MangleTagName_(Name, Tag) \
-    Mini__ConcatMacro(Mini__, \
-        Mini__ConcatMacro(Name, \
-            Mini__ConcatMacro(__Tag, \
-                Mini__ConcatMacro(Tag, _))))
+    Mini__ConcatMacro(Name, \
+        Mini__ConcatMacro(Tag, _))))
 
 #define Mini__MangleVarName_(Var) Mini__ConcatMacro(Var, _)
 
