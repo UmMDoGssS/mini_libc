@@ -36,5 +36,7 @@ SkipMacroDefinitionBody: true
 StatementMacros:
   - Mini__DefineRes
   - DefineRes
+  - Mini__DefineOpt
+  - DefineOpt
   - Mini__DeclareSumType
   - DeclareSumType

@@ -24,7 +24,7 @@ mini_libc is a learning project for understanding how a C runtime and library wo
 
 - Represent sized string views with a pointer and an explicit length.
 - Distinguish borrowed views from owned data and document lifetime and ownership where relevant.
-- Use `Option` for ordinary absence and `Res` for recoverable errors. Choose concrete layouts and signatures as each module takes shape.
+- Use `Opt` for ordinary absence and `Res` for recoverable errors. Choose concrete layouts and signatures as each module takes shape.
 
 ## Formatting
 

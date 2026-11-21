@@ -1,5 +1,5 @@
 /** @file
- * @brief Short aliases for the panic and result API.
+ * @brief Short aliases for the panic, result, and option APIs.
  *
  * Include this header to use the short names from `Error.h`.
  */
@@ -18,5 +18,12 @@
 #define ResMth Mini__ResMth
 /** @copydoc Mini__DefineRes */
 #define DefineRes Mini__DefineRes
+
+/** @copydoc Mini__Opt */
+#define Opt Mini__Opt
+/** @copydoc Mini__OptMth */
+#define OptMth Mini__OptMth
+/** @copydoc Mini__DefineOpt */
+#define DefineOpt Mini__DefineOpt
 
 #endif // Mini__ErrorNoNamespaceH_

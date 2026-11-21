@@ -1,5 +1,5 @@
 /** @file
- * @brief Panic and typed results for recoverable errors.
+ * @brief Panic, typed results, and optional values.
  */
 
 #ifndef Mini__ErrorH_
@@ -173,6 +173,132 @@ void Mini__Panic_(const char *location, Mini__USize length);
         .GetErr   = Mini__ConcatMacro(Mini__ResMth(T, E), __GetErr_),                         \
         .Unwrap   = Mini__ConcatMacro(Mini__ResMth(T, E), __Unwrap_),                         \
         .UnwrapOr = Mini__ConcatMacro(Mini__ResMth(T, E), __UnwrapOr_),                       \
+    }
+
+/**
+ * @brief Names the option type defined for a payload type.
+ * @param T Single-token payload type name.
+ * @see Mini__DefineOpt
+ */
+#define Mini__Opt(T) Mini__ConcatMacro(Mini__Opt_, T)
+
+/**
+ * @brief Accesses the read-only method table for an option type.
+ * @param T Single-token payload type name.
+ *
+ * - `MakeSome(value)` constructs an option containing a value of type @p T.
+ * - `MakeNone()` constructs an empty option.
+ * - `IsSome(self)` tests whether the option contains a value.
+ * - `IsNone(self)` tests whether the option is empty.
+ * - `GetSome(self)` returns a read-only pointer to the payload, or `nullptr` if empty.
+ * - `Unwrap(self)` returns the payload by value and panics if empty.
+ * - `UnwrapOr(self, fallback)` returns the payload or the fallback by value.
+ *
+ * Pass a non-null pointer to an initialized option as `self`. `GetSome` borrows the payload
+ * while the option lives and holds `Some`. `UnwrapOr` always evaluates the fallback argument.
+ * `Unwrap` reports the location of the Mini__DefineOpt expansion when it panics.
+ * @see Mini__DefineOpt
+ */
+#define Mini__OptMth(T) Mini__ConcatMacro(Mini__OptMth_, T)
+
+/**
+ * @brief Defines an option type and its method table for a payload type.
+ * @param T Single-token payload type name.
+ *
+ * Invoke once per type in each translation unit that uses it, at file scope with a trailing
+ * semicolon. A shared header can provide the definition to multiple translation units.
+ * Use a typedef for types spelled with multiple tokens. A zero-initialized option is `None`.
+ *
+ * @code{.c}
+ * #include <mini/Error.h>
+ * Mini__DefineOpt(Mini__USize);
+ *
+ * void Example(void) {
+ *     Mini__Opt(Mini__USize) opt = Mini__OptMth(Mini__USize).MakeSome(42);
+ *     Mini__USize size = Mini__OptMth(Mini__USize).UnwrapOr(&opt, 0);
+ *     (void) size;
+ * }
+ * @endcode
+ * @see Mini__Opt, Mini__OptMth
+ */
+#define Mini__DefineOpt(T)                                                                       \
+    Mini__DeclareSumType(Mini__Opt(T), (Mini__Byte, None, none), (T, Some, some))                \
+                                                                                                 \
+    /* MakeSome(T val) -> Self */                                                                \
+    static inline Mini__Opt(T) Mini__ConcatMacro(Mini__OptMth(T), __MakeSome_)(T val) {          \
+        return (Mini__Opt(T)) {                                                                  \
+            .tag_ = Mini__ConcatMacro(Mini__Opt(T), __Some_),                                    \
+            .some_ = val,                                                                        \
+        };                                                                                       \
+    }                                                                                            \
+                                                                                                 \
+    /* MakeNone() -> Self */                                                                     \
+    static inline Mini__Opt(T) Mini__ConcatMacro(Mini__OptMth(T), __MakeNone_)(void) {           \
+        return (Mini__Opt(T)) {                                                                  \
+            .tag_ = Mini__ConcatMacro(Mini__Opt(T), __None_),                                    \
+            .none_ = 0,                                                                          \
+        };                                                                                       \
+    }                                                                                            \
+                                                                                                 \
+    /* IsSome(self) -> bool */                                                                   \
+    static inline bool Mini__ConcatMacro(Mini__OptMth(T), __IsSome_)(const Mini__Opt(T) *self) { \
+        return self->tag_ == Mini__ConcatMacro(Mini__Opt(T), __Some_);                           \
+    }                                                                                            \
+                                                                                                 \
+    /* IsNone(self) -> bool */                                                                   \
+    static inline bool Mini__ConcatMacro(Mini__OptMth(T), __IsNone_)(const Mini__Opt(T) *self) { \
+        return self->tag_ == Mini__ConcatMacro(Mini__Opt(T), __None_);                           \
+    }                                                                                            \
+                                                                                                 \
+    /* GetSome(self) -> T* */                                                                    \
+    static inline const T *Mini__ConcatMacro(Mini__OptMth(T), __GetSome_)(                       \
+        const Mini__Opt(T) *self                                                                 \
+    ) {                                                                                          \
+        return Mini__ConcatMacro(Mini__OptMth(T), __IsSome_)(self) ? &self->some_ : nullptr;     \
+    }                                                                                            \
+                                                                                                 \
+    /* Unwrap(self) -> T */                                                                      \
+    static inline T Mini__ConcatMacro(Mini__OptMth(T), __Unwrap_)(const Mini__Opt(T) *self) {    \
+        if (!Mini__ConcatMacro(Mini__OptMth(T), __IsSome_)(self)) {                              \
+            Mini__Panic();                                                                       \
+        }                                                                                        \
+                                                                                                 \
+        return self->some_;                                                                      \
+    }                                                                                            \
+                                                                                                 \
+    /* UnwrapOr(self, T val) -> T */                                                             \
+    static inline T Mini__ConcatMacro(Mini__OptMth(T), __UnwrapOr_)(                             \
+        const Mini__Opt(T) *self,                                                                \
+        T val                                                                                    \
+    ) {                                                                                          \
+        return Mini__ConcatMacro(Mini__OptMth(T), __IsSome_)(self) ? self->some_ : val;          \
+    }                                                                                            \
+                                                                                                 \
+    [[maybe_unused]] static const struct {                                                       \
+        [[nodiscard]]                                                                            \
+        Mini__Opt(T) (*MakeSome)(T val);                                                         \
+        [[nodiscard]]                                                                            \
+        Mini__Opt(T) (*MakeNone)(void);                                                          \
+                                                                                                 \
+        [[nodiscard, gnu::nonnull(1)]]                                                           \
+        bool (*IsSome)(const Mini__Opt(T) *self);                                                \
+        [[nodiscard, gnu::nonnull(1)]]                                                           \
+        bool (*IsNone)(const Mini__Opt(T) *self);                                                \
+                                                                                                 \
+        [[nodiscard, gnu::nonnull(1)]]                                                           \
+        const T *(*GetSome)(const Mini__Opt(T) *self);                                           \
+        [[nodiscard, gnu::nonnull(1)]]                                                           \
+        T (*Unwrap)(const Mini__Opt(T) *self);                                                   \
+        [[nodiscard, gnu::nonnull(1)]]                                                           \
+        T (*UnwrapOr)(const Mini__Opt(T) *self, T val);                                          \
+    } Mini__OptMth(T) = {                                                                        \
+        .MakeSome = Mini__ConcatMacro(Mini__OptMth(T), __MakeSome_),                             \
+        .MakeNone = Mini__ConcatMacro(Mini__OptMth(T), __MakeNone_),                             \
+        .IsSome   = Mini__ConcatMacro(Mini__OptMth(T), __IsSome_),                               \
+        .IsNone   = Mini__ConcatMacro(Mini__OptMth(T), __IsNone_),                               \
+        .GetSome  = Mini__ConcatMacro(Mini__OptMth(T), __GetSome_),                              \
+        .Unwrap   = Mini__ConcatMacro(Mini__OptMth(T), __Unwrap_),                               \
+        .UnwrapOr = Mini__ConcatMacro(Mini__OptMth(T), __UnwrapOr_),                             \
     }
 
 #endif // Mini__ErrorH_

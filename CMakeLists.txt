@@ -53,6 +53,7 @@ if(BUILD_TESTING)
     add_mini_executable(memory test/MemoryTest.c)
     add_mini_executable(res test/ResTest.c)
     target_sources(res PRIVATE test/ResTestFixture.c)
+    add_mini_executable(opt test/OptTest.c)
 
     function(add_mini_test target status)
         add_test(NAME ${target}
@@ -75,4 +76,5 @@ if(BUILD_TESTING)
     add_mini_test(sys-abort 0)
     add_mini_test(memory 0)
     add_mini_test(res 0)
+    add_mini_test(opt 0)
 endif()
