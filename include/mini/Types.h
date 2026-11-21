@@ -1,5 +1,5 @@
-#ifndef Mini__IncludedTypesH
-#define Mini__IncludedTypesH
+#ifndef Mini__TypesH_
+#define Mini__TypesH_
 
 #include "Macros.h"
 
@@ -83,4 +83,4 @@ typedef unsigned char Mini__Byte;
         }; \
     } Name;
 
-#endif // Mini__IncludedTypesH
+#endif // Mini__TypesH_

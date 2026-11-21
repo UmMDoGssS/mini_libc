@@ -1,5 +1,5 @@
-#ifndef Mini__IncludedSysH
-#define Mini__IncludedSysH
+#ifndef Mini__SysH_
+#define Mini__SysH_
 
 #include "Types.h"
 
@@ -213,4 +213,4 @@ Mini__IPtr Mini__SysMmap(
 [[nodiscard]]
 Mini__I32 Mini__SysMunmap(Mini__Any *address, Mini__USize length);
 
-#endif // Mini__IncludedSysH
+#endif // Mini__SysH_

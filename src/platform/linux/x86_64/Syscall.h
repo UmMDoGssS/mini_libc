@@ -1,5 +1,5 @@
-#ifndef LinuxX86_64SyscallH
-#define LinuxX86_64SyscallH
+#ifndef LinuxX86_64SyscallH_
+#define LinuxX86_64SyscallH_
 
 #include "mini/Types.h"
 #include "SyscallNumber.h"
@@ -35,4 +35,4 @@ static inline Mini__I64 Syscall6(
     return result;
 }
 
-#endif // LinuxX86_64SyscallH
+#endif // LinuxX86_64SyscallH_

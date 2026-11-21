@@ -1,5 +1,5 @@
-#ifndef LinuxX86_64SyscallNumberH
-#define LinuxX86_64SyscallNumberH
+#ifndef LinuxX86_64SyscallNumberH_
+#define LinuxX86_64SyscallNumberH_
 
 /// Native Linux x86-64 syscall numbers from the Linux 7.0 UAPI table.
 typedef enum SyscallNumber {
@@ -391,4 +391,4 @@ typedef enum SyscallNumber {
     SyscallNumber__RseqSliceYield = 471,
 } SyscallNumber;
 
-#endif // LinuxX86_64SyscallNumberH
+#endif // LinuxX86_64SyscallNumberH_

@@ -1,5 +1,5 @@
-#ifndef LinuxX86_64SignalH
-#define LinuxX86_64SignalH
+#ifndef LinuxX86_64SignalH_
+#define LinuxX86_64SignalH_
 
 #include "mini/Sys.h"
 
@@ -18,4 +18,4 @@ static_assert(__builtin_offsetof(KernelSigAction, flags) == 8);
 static_assert(__builtin_offsetof(KernelSigAction, restorer) == 16);
 static_assert(__builtin_offsetof(KernelSigAction, mask) == 24);
 
-#endif // LinuxX86_64SignalH
+#endif // LinuxX86_64SignalH_

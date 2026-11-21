@@ -1,5 +1,5 @@
-#ifndef Mini__IncludedTypesNoNamespaceH
-#define Mini__IncludedTypesNoNamespaceH
+#ifndef Mini__TypesNoNamespaceH_
+#define Mini__TypesNoNamespaceH_
 
 #include "Types.h"
 
@@ -30,4 +30,4 @@
 
 #define DeclareSumType Mini__DeclareSumType
 
-#endif // Mini__IncludedTypesNoNamespaceH
+#endif // Mini__TypesNoNamespaceH_

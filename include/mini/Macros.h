@@ -1,5 +1,5 @@
-#ifndef Mini__IncludedMacrosH
-#define Mini__IncludedMacrosH
+#ifndef Mini__MacrosH_
+#define Mini__MacrosH_
 
 #define Mini__ConcatMacro_(A, B) A##B
 #define Mini__ConcatMacro(A, B) Mini__Concat_(A, B)
@@ -9,4 +9,4 @@
 
 #define Mini__UnwrapMacro(...) __VA_ARGS__
 
-#endif // Mini__IncludedMacrosH
+#endif // Mini__MacrosH_
