@@ -1,3 +1,4 @@
+#include "mini/MemNoNamespace.h"
 #include "mini/TypesNoNamespace.h"
 
 // Memory entry points for the freestanding Clang runtime.
@@ -56,4 +57,34 @@ int memcmp(const Any *left, const Any *right, USize length) {
     }
 
     return 0;
+}
+
+void MemCopy(Any *restrict destination, const Any *restrict source, USize length) {
+    if (length != 0) {
+        memcpy(destination, source, length);
+    }
+}
+
+void MemMove(Any *destination, const Any *source, USize length) {
+    if (length != 0) {
+        memmove(destination, source, length);
+    }
+}
+
+void MemFill(Any *destination, Byte value, USize length) {
+    if (length != 0) {
+        memset(destination, value, length);
+    }
+}
+
+MemOrder MemComp(const Any *left, const Any *right, USize length) {
+    if (length == 0) {
+        return MemOrder__Equal;
+    }
+
+    const int order = memcmp(left, right, length);
+    if (order < 0) {
+        return MemOrder__Less;
+    }
+    return order == 0 ? MemOrder__Equal : MemOrder__Greater;
 }

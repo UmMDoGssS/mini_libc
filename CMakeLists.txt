@@ -18,7 +18,7 @@ set(CMAKE_C_EXTENSIONS OFF)
 
 set(runtime_sources
     src/core/Error.c
-    src/core/Memory.c
+    src/core/Mem.c
     src/platform/linux/x86_64/Start.s
     src/sys/Sys.c
 )
